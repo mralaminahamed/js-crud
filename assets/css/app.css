@@ -1,3 +1,5 @@
+/*http://localhost:63342/js-crud/assets/css/app.css?_ijt=31rtlugvfv0ngaro4f31dren1o*/
+/*http://localhost:63342/js-crud/index.html?_ijt=uhfqlir65m14a62buf4dtv7o4o*/
 html:root {
     --blue-deep-black: #006194;
     --blue-deep: #0777cc;
@@ -122,25 +124,37 @@ html {
 }
 
 body {
-    align-items: center;
-    color: var(--black);
-    background: transparent;
-    display: flex;
-    flex-direction: column;
-    font-family: var(--font-family-sans-serif);
-    height: auto;
-    justify-content: center;
     margin: 0;
-    padding: 0
+    padding: 0;
+
+    height: auto;
+
+    color: var(--black);
+    font-family: var(--font-family-sans-serif);
+
+
+    background: transparent;
+
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    justify-content: center;
 }
 
 .application {
+    width: 850px;
+
+    margin-top: 1rem;
+    padding: 2.5rem 3rem !important;
+
+    line-height: 1.5;
+
     background-color: var(--white);
     border-radius: .7rem;
-    box-shadow: 0 1px 3px rgba(0, 0, 0, .12), 0 1px 2px rgba(0, 0, 0, .24);
-    line-height: 1.5;
-    margin-top: 1rem;
-    padding: 2.5rem 3rem !important
+
+    -webkit-box-shadow: 0 2px 4px rgba(0, 0, 0, .12), 0 2px 3px rgba(0, 0, 0, .24);
+    -moz-box-shadow: 0 2px 4px rgba(0, 0, 0, .12), 0 2px 3px rgba(0, 0, 0, .24);
+    box-shadow: 0 2px 4px rgba(0, 0, 0, .12), 0 2px 3px rgba(0, 0, 0, .24);
 }
 
 .application-concat {
@@ -177,13 +191,18 @@ body {
 }
 
 .application-content-title-icon {
-    border-radius: 50%;
-    box-shadow: 2px 2px 8px rgba(0, 0, 0, .29), inset 2px 2px 8px hsla(0, 0%, 100%, .44);
-    float: left;
-    height: 80px;
     margin: .6rem;
     padding: .5rem;
-    width: 80px
+
+    border-radius: 50%;
+    float: left;
+
+    width: 80px;
+    height: 80px;
+
+    -webkit-box-shadow: 0 2px 4px rgba(0, 0, 0, .12), 0 2px 3px rgba(0, 0, 0, .24);
+    -moz-box-shadow: 0 2px 4px rgba(0, 0, 0, .12), 0 2px 3px rgba(0, 0, 0, .24);
+    box-shadow: 0 2px 4px rgba(0, 0, 0, .12), 0 2px 3px rgba(0, 0, 0, .24);
 }
 
 .application-content-title-icon-concat {
@@ -204,7 +223,7 @@ body {
 }
 
 .message {
-    width: 850px;
+    width: 100%;
     background-color: rgba(0, 0, 0, .05);
     border-left: 4px solid var(--red-300);
 
@@ -225,17 +244,22 @@ body {
 }
 
 .message .content {
-    width: 96%;
-    border: 1px solid;
-    padding: 1rem;
+    padding: 1rem 0 1rem 1rem;
 
+    display: flex;
     justify-content: flex-start;
 }
 
 .message .close {
-    border: 1px solid;
-    padding: 1rem;
+    height: 25px;
+    width: 25px;
+    font-size: 25px;
+    color: red;
+   /* border: 1px solid;*/
+    padding: 8px 8px 8px 8px;
+    border-radius: 50px;
 
+    display: flex;
     justify-content: flex-end;
 }
 
@@ -244,10 +268,79 @@ body {
 }
 
 .error {
-    background-color: rgba(250, 133, 162, 5);
+    background-color: var(--red-300);
     border-left: 4px solid var(--red-300);
+    color: var(--red);
+}
+
+.success {
+    background-color: var(--green-300);
+    border-left: 4px solid var(--green-300);
+    color: var(--green);
+}
+
+form {
+    display: flex;
+    flex-direction: column;
+    padding: 10px 15px;
+    margin-bottom: 20px;
+
+    -webkit-box-shadow: 0 2px 4px rgba(0, 0, 0, .12), 0 2px 3px rgba(0, 0, 0, .24);
+    -moz-box-shadow: 0 2px 4px rgba(0, 0, 0, .12), 0 2px 3px rgba(0, 0, 0, .24);
+    box-shadow: 0 2px 4px rgba(0, 0, 0, .12), 0 2px 3px rgba(0, 0, 0, .24);
+}
+
+form div {
+    display: flex;
+    flex-direction: row;
+}
+
+form label {
+    display: flex;
+    flex-direction: column;
+    text-transform: capitalize;
+    margin-right: 40px;
+
+    font-size: 18px;
+    font-weight: bold;
+    line-height: 28px;
+}
+
+form label:last-child {
+    margin-left: 0;
+}
+
+form input[type=text]{
+    font-family: inherit;
+    font-size: 18px;
+    margin-top: 10px;
+    padding: 5px 10px;
+}
+
+form input[type=submit] {
+    width: 140px;
+
+    margin-top: 20px;
+    padding: 10px 14px;
+
+    font-family: inherit;
+    font-size: 18px;
+    font-weight: bold;
+
+    color: var(--white);
+    background: var(--green);
+
+    -webkit-border-radius: 10px;
+    -moz-border-radius: 10px;
+    border-radius: 10px;
+
+
+    -webkit-box-shadow: 0 2px 4px rgba(0, 0, 0, .12), 0 2px 3px rgba(0, 0, 0, .24);
+    -moz-box-shadow: 0 2px 4px rgba(0, 0, 0, .12), 0 2px 3px rgba(0, 0, 0, .24);
+    box-shadow: 0 2px 4px rgba(0, 0, 0, .12), 0 2px 3px rgba(0, 0, 0, .24);
 
 }
+
 
 
 .details {

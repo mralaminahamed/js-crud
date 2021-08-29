@@ -12,27 +12,25 @@
 <div class="application">
     <div class="application-content-title">Book list</div>
     <div class="message">
-        <div class="content">
-            A quick brown fox jumps over the lazy dogA quick brown fox jumps over the lazy dogA quick brown fox jumps over the lazy dogA quick brown fox jumps over the lazy dogA quick brown fox jumps over the lazy dogA quick brown fox jumps over the lazy dogA quick brown fox jumps over the lazy dog
-        </div>
-        <div class="close"><i class="far fa-times-circle"></i></div>
+        <div class="content"></div>
+        <!--<div class="close"><i class="far fa-times-circle"></i></div>-->
     </div>
     <form action="?#" enctype="application/x-www-form-urlencoded" method="get">
         <div class="inline-input-elements">
             <label>
                 book name
-                <input type="text" id="name" placeholder="Your name here">
+                <input type="text" id="name" placeholder="Book's name">
             </label>
             <label>
                 book writer
-                <input type="text" id="writer" placeholder="Your country here">
+                <input type="text" id="writer" placeholder="Book's writer name">
             </label>
             <label>
                 book isbn
-                <input type="text" id="isbn" placeholder="Your isbn here">
+                <input type="text" id="isbn" placeholder="Book's ISBN number">
             </label>
         </div>
-        <input type="submit" value="Add book" id="submit">
+        <input type="submit" value="Add book" data-job="add" id="submit">
     </form>
 
     <table id="view-table">

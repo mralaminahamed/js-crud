@@ -22,7 +22,7 @@ let bookList = [new Book('PHP', 'PHP owner', 'ISB12134'),
 
 if (bookList.length > 0) {
     bookList.forEach(function (book) {
-        let html = `<tr data-id="${book.isbn}"><td>${book.name}</td><td>${book.writer}</td><td>${book.isbn}</td><td><button id="edit" data-name="${book.name}" data-writer="${book.writer}" data-isbn="${book.isbn}">Edit</button><button id="delete" data-isbn="${book.isbn}">Delete</button></td></tr>`;
+        let html = `<tr data-id="${book.isbn}"><td>#</td><td>${book.name}</td><td>${book.writer}</td><td>${book.isbn}</td><td><button id="edit" data-name="${book.name}" data-writer="${book.writer}" data-isbn="${book.isbn}">Edit</button><button id="delete" data-isbn="${book.isbn}">Delete</button></td></tr>`;
         document.querySelector('#view-table-body').innerHTML += html;
     })
 }

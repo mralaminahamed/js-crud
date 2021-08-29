@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>JS Crud</title>
+</head>
+<body>
+
+<div>
+    <span>Book list</span>
+    <form action="?#" enctype="application/x-www-form-urlencoded" method="get">
+        <label>
+            book name
+            <input type="text" id="name" placeholder="Your name here">
+        </label>
+        <label>
+            book writer
+            <input type="text" id="writer" placeholder="Your country here">
+        </label>
+        <label>
+            book isbn
+            <input type="text" id="isbn" placeholder="Your isbn here">
+        </label>
+        <input type="submit" value="Add book" id="submit">
+    </form>
+
+    <table id="view-table">
+        <thead>
+        <tr>
+        <td>Name</td>
+        <td>Writer</td>
+        <td>ISBN</td>
+        <td>Action</td>
+        </tr>
+        </thead>
+        <tbody id="view-table-body">
+        </tbody>
+    </table>
+</div>
+
+<script src="app.js"></script>
+</body>
+</html>

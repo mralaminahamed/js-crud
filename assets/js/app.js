@@ -8,6 +8,11 @@ class Book {
 
 class App {
     constructor() {
+        this.viewTableElement = document.querySelector('#view-table-body')
+    }
+
+    viewTable(){
+        return this.viewTableElement;
     }
 
     makeEmptyElementValue() {
@@ -42,9 +47,8 @@ class App {
 
     addBook(book) {
         if (!this.isBookExists(book.isbn)) {
-            let tableList = document.querySelector('#view-table-body');
-            let curElNumber = tableList.childElementCount + 1;
-            tableList.innerHTML += (`<tr data-id="${book.isbn}"><td>${curElNumber.toString()}</td><td>${book.name}</td><td>${book.writer}</td><td>${book.isbn}</td><td><button id="edit" data-name="${book.name}" data-writer="${book.writer}" data-isbn="${book.isbn}">Edit</button><button id="delete" data-isbn="${book.isbn}">Delete</button></td></tr>`);
+            let curElNumber = this.viewTableElement.childElementCount + 1;
+            this.viewTableElement.innerHTML += (`<tr data-id="${book.isbn}"><td>${curElNumber.toString()}</td><td>${book.name}</td><td>${book.writer}</td><td>${book.isbn}</td><td><button id="edit" data-name="${book.name}" data-writer="${book.writer}" data-isbn="${book.isbn}">Edit</button><button id="delete" data-isbn="${book.isbn}">Delete</button></td></tr>`);
             this.showMessage(`${book.name} book added successfully.`, 'success')
         } else {
             this.showMessage(`Insertion failed. ${book.name} book already exists.`, 'error')
@@ -146,9 +150,7 @@ class App {
 
     isBookExists(identifier, callback){
         let IsFound = false;
-        let tableList = document.querySelector('#view-table-body')
-
-        tableList.childNodes.forEach(function (element) {
+        this.viewTableElement.childNodes.forEach(function (element) {
             if (element.nodeName === 'TR') {
                 if (element.getAttribute('data-id') === identifier) {
                     if (callback){
@@ -160,6 +162,21 @@ class App {
         });
 
         return IsFound;
+    }
+
+    makeRow(rowId, book){
+        console.log(this.viewTableElement.childElementCount)
+        let tr = document.createElement("tr")
+        tr.setAttribute('id', rowId)
+        if (book){
+            console.log(book)
+        } else {
+            let td = document.createElement("td")
+            td.setAttribute('colspan', '5')
+            td.innerText = 'No data exists';
+            tr.appendChild(td);
+        }
+        return tr;
     }
 }
 

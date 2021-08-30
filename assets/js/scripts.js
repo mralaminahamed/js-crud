@@ -1,8 +1,9 @@
 (function () {
     //initialize element null value of form
-    (new App()).makeEmptyElementValue();
+    let bookApp = new App();
+    bookApp.makeEmptyElementValue();
 
-    let viewTableBody = document.querySelector('#view-table-body');
+    let viewTableBody = bookApp.viewTable();
 
     //add observer
     // Create an observer instance linked to the callback function
@@ -10,26 +11,23 @@
         // Use traditional 'for loops' for IE 11
         for(const mutation of mutationsList) {
             if (mutation.type === 'childList') {
+                //Table body count one text child on row update state
                 if (mutation.target.childNodes.length === 1){
-                    // I can use a function to collaborate these item once
-                    let tr = document.createElement("tr")
-                    let td = document.createElement("td")
-                    td.setAttribute('colspan', 5)
-                    td.innerText = 'No data exists';
-                    tr.appendChild(td);
-                    mutation.target.appendChild(tr)
+                    mutation.target.appendChild(
+                        bookApp.makeRow('empty-data')
+                    )
                 }
                 document.querySelectorAll('#edit').forEach(function (editButton) {
                     editButton.addEventListener('click', function (e) {
                         e.preventDefault();
-                        (new App()).bindEditEvent(e);
+                        bookApp.bindEditEvent(e);
                     })
                 })
 
                 document.querySelectorAll('#delete').forEach(function (deleteButton) {
                     deleteButton.addEventListener('click', function (e) {
                         e.preventDefault();
-                        (new App()).deleteBook(e.currentTarget);
+                        bookApp.deleteBook(e.currentTarget);
                     })
                 })
             }
@@ -40,16 +38,12 @@
     observer.observe(viewTableBody, { childList: true, subtree: true });
 
 
+    //Actually table body has zero child, on document ready state
     if (viewTableBody.childElementCount=== 0){
-        // I can use a function to collaborate these item once
-        let tr = document.createElement("tr")
-        let td = document.createElement("td")
-        td.setAttribute('colspan', 5)
-        td.innerText = 'No data exists';
-        tr.appendChild(td);
-        viewTableBody.appendChild(tr)
+        viewTableBody.appendChild(
+            bookApp.makeRow('empty-data')
+        )
     }
-
 })();
 
 

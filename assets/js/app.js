@@ -46,9 +46,13 @@ class App {
     }
 
     addBook(book) {
-        if (!this.isBookExists(book.isbn)) {
-            let curElNumber = this.viewTableElement.childElementCount + 1;
-            this.viewTableElement.innerHTML += (`<tr data-id="${book.isbn}"><td>${curElNumber.toString()}</td><td>${book.name}</td><td>${book.writer}</td><td>${book.isbn}</td><td><button id="edit" data-name="${book.name}" data-writer="${book.writer}" data-isbn="${book.isbn}">Edit</button><button id="delete" data-isbn="${book.isbn}">Delete</button></td></tr>`);
+        if (this.isExists('empty-data')){
+            this.isExists('empty-data', function (element) {
+                element.remove();
+            })
+        }
+        if (!this.isExists(book.isbn)) {
+            this.viewTableElement.appendChild(this.makeRow(book.isbn, book));
             this.showMessage(`${book.name} book added successfully.`, 'success')
         } else {
             this.showMessage(`Insertion failed. ${book.name} book already exists.`, 'error')
@@ -59,8 +63,8 @@ class App {
         let self = this;
         let IsMatchFound = false;
 
-        if (this.isBookExists(book.isbn)){
-            IsMatchFound = this.isBookExists(book.isbn, function (element) {
+        if (this.isExists(book.isbn)){
+            IsMatchFound = this.isExists(book.isbn, function (element) {
                 self.distributeBookData(element, book, 0);
             })
         }
@@ -78,8 +82,8 @@ class App {
         let currentBook = e.previousSibling.getAttribute('data-name');
         let isbn = e.getAttribute('data-isbn');
 
-        if (this.isBookExists(isbn)){
-           IsRemoved = this.isBookExists(isbn, function (element) {
+        if (this.isExists(isbn)){
+           IsRemoved = this.isExists(isbn, function (element) {
                 element.remove();
             })
         }
@@ -88,7 +92,7 @@ class App {
             this.showMessage(`${currentBook} book successfully deleted.`, 'success')
         } else {
             //Prevent unexpected error message after successfully deletion specific item.
-            if (this.isBookExists(isbn)){
+            if (this.isExists(isbn)){
                 this.showMessage(`${currentBook} book deletion failed.`, 'error')
             }
         }
@@ -148,11 +152,11 @@ class App {
         document.querySelector('#submit').setAttribute('data-job', 'update');
     }
 
-    isBookExists(identifier, callback){
+    isExists(identifier, callback){
         let IsFound = false;
         this.viewTableElement.childNodes.forEach(function (element) {
             if (element.nodeName === 'TR') {
-                if (element.getAttribute('data-id') === identifier) {
+                if (element.getAttribute('id') === identifier) {
                     if (callback){
                         callback(element);
                     }
@@ -165,11 +169,11 @@ class App {
     }
 
     makeRow(rowId, book){
-        console.log(this.viewTableElement.childElementCount)
         let tr = document.createElement("tr")
         tr.setAttribute('id', rowId)
         if (book){
-            console.log(book)
+            let curElNumber = this.viewTableElement.childElementCount + 1;
+            tr.innerHTML = (`<td>${curElNumber.toString()}</td><td>${book.name}</td><td>${book.writer}</td><td>${book.isbn}</td><td><button id="edit" data-name="${book.name}" data-writer="${book.writer}" data-isbn="${book.isbn}">Edit</button><button id="delete" data-isbn="${book.isbn}">Delete</button></td>`);
         } else {
             let td = document.createElement("td")
             td.setAttribute('colspan', '5')

@@ -1,9 +1,9 @@
 (function () {
     //initialize element null value of form
     let bookApp = new App();
-    bookApp.makeEmptyElementValue();
-
     let viewTableBody = bookApp.viewTable();
+
+    bookApp.makeEmptyElementValue();
 
     //add observer
     // Create an observer instance linked to the callback function
@@ -36,7 +36,6 @@
 
     // Start observing the target node for configured mutations
     observer.observe(viewTableBody, { childList: true, subtree: true });
-
 
     //Actually table body has zero child, on document ready state
     if (viewTableBody.childElementCount=== 0){

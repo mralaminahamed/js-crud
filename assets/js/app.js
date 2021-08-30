@@ -61,15 +61,15 @@ class App {
 
     updateBook(book) {
         let self = this;
-        let IsMatchFound = false;
+        let IsUpdated = false;
 
         if (this.isExists(book.isbn)){
-            IsMatchFound = this.isExists(book.isbn, function (element) {
+            IsUpdated = this.isExists(book.isbn, function (element) {
                 self.distributeBookData(element, book, 0);
             })
         }
 
-        if (IsMatchFound) {
+        if (IsUpdated) {
             this.showMessage('Book updated successfully.', 'success')
         } else {
             this.showMessage('Book updating failed.', 'error')

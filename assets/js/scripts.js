@@ -12,11 +12,14 @@
         for(const mutation of mutationsList) {
             if (mutation.type === 'childList') {
                 //Table body count one text child on row update state
-                if (mutation.target.childNodes.length === 1){
-                    mutation.target.appendChild(
-                        bookApp.makeRow('empty-data')
-                    )
+                if (mutation.target.nodeName==='TBODY'){
+                    if (mutation.target.childNodes.length === 1){
+                        mutation.target.appendChild(
+                            bookApp.makeRow('empty-data')
+                        )
+                    }
                 }
+
                 document.querySelectorAll('#edit').forEach(function (editButton) {
                     editButton.addEventListener('click', function (e) {
                         e.preventDefault();

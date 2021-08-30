@@ -6,9 +6,23 @@
     //add observer
     // Create an observer instance linked to the callback function
     const observer = new MutationObserver(function (mutationsList, observer) {
+        console.log(mutationsList)
+        console.log(observer)
         // Use traditional 'for loops' for IE 11
         for(const mutation of mutationsList) {
             if (mutation.type === 'childList') {
+                console.log(mutation.target)
+                console.log('all childnodes is')
+                console.log(mutation.target.childNodes)
+                if (mutation.target.childNodes.length === 1){
+                    // I can use a function to collaborate these item once
+                    let tr = document.createElement("tr")
+                    let td = document.createElement("td")
+                    td.setAttribute('colspan', 5)
+                    td.innerText = 'No data exists';
+                    tr.appendChild(td);
+                    mutation.target.appendChild(tr)
+                }
                 document.querySelectorAll('#edit').forEach(function (editButton) {
                     editButton.addEventListener('click', function (e) {
                         e.preventDefault();

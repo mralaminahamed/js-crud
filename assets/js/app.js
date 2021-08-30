@@ -1,5 +1,5 @@
 class Book {
-    constructor(name, writer, isbn,) {
+    constructor(name, writer, isbn) {
         this.name = name
         this.writer = writer
         this.isbn = isbn
@@ -10,7 +10,7 @@ class App {
     constructor() {
     }
 
-    makeEmptyElementValue(){
+    makeEmptyElementValue() {
         document.querySelector('#name').value = '';
         document.querySelector('#writer').value = '';
         document.querySelector('#isbn').value = '';
@@ -18,7 +18,7 @@ class App {
         document.querySelector('#submit').setAttribute('data-job', 'add');
     }
 
-    formProcess(e){
+    formProcess(e) {
         let bookName = document.querySelector('#name').value;
         let bookWriter = document.querySelector('#writer').value;
         let bookIsbn = document.querySelector('#isbn').value;
@@ -28,10 +28,10 @@ class App {
         } else {
             let currentJob = e.getAttribute('data-job');
             let book = new Book(bookName, bookWriter, bookIsbn)
-            if (currentJob==='add'){
+            if (currentJob === 'add') {
                 this.addBook(book)
                 this.makeEmptyElementValue()
-            } else if (currentJob==='update'){
+            } else if (currentJob === 'update') {
                 this.updateBook(book)
                 //this.makeEmptyElementValue()
             } else {
@@ -41,17 +41,8 @@ class App {
     }
 
     addBook(book) {
-        let tableList = document.querySelector('#view-table-body');
-        let IsMatchFound = false;
-        tableList.childNodes.forEach(function (element) {
-            if (element.nodeName === 'TR') {
-                if (element.getAttribute('data-id') === book.isbn) {
-                    IsMatchFound = true;
-                }
-            }
-        });
-
-        if (!IsMatchFound) {
+        if (!this.isBookExists(book.isbn)) {
+            let tableList = document.querySelector('#view-table-body');
             let curElNumber = tableList.childElementCount + 1;
             tableList.innerHTML += (`<tr data-id="${book.isbn}"><td>${curElNumber.toString()}</td><td>${book.name}</td><td>${book.writer}</td><td>${book.isbn}</td><td><button id="edit" data-name="${book.name}" data-writer="${book.writer}" data-isbn="${book.isbn}">Edit</button><button id="delete" data-isbn="${book.isbn}">Delete</button></td></tr>`);
             this.showMessage(`${book.name} book added successfully.`, 'success')
@@ -62,16 +53,13 @@ class App {
 
     updateBook(book) {
         let self = this;
-        let tableList = document.querySelector('#view-table-body');
         let IsMatchFound = false;
-        tableList.childNodes.forEach(function (element) {
-            if (element.nodeName === 'TR') {
-                if (element.getAttribute('data-id') === book.isbn) {
-                    self.distributeBookData(element, book, 0);
-                    IsMatchFound = true;
-                }
-            }
-        });
+
+        if (this.isBookExists(book.isbn)){
+            IsMatchFound = this.isBookExists(book.isbn, function (element) {
+                self.distributeBookData(element, book, 0);
+            })
+        }
 
         if (IsMatchFound) {
             this.showMessage('Book updated successfully.', 'success')
@@ -81,32 +69,31 @@ class App {
     }
 
 
-    deleteBook(e){
+    deleteBook(e) {
         let IsRemoved = false;
         let currentBook = e.previousSibling.getAttribute('data-name');
         let isbn = e.getAttribute('data-isbn');
-        let tableList = document.querySelector('#view-table-body')
 
-        tableList.childNodes.forEach(function (element) {
-            if (element.nodeName === 'TR') {
-                if (element.getAttribute('data-id') === isbn) {
-                    element.remove();
-                    IsRemoved = true;
-                }
-            }
-        })
+        if (this.isBookExists(isbn)){
+           IsRemoved = this.isBookExists(isbn, function (element) {
+                element.remove();
+            })
+        }
 
         if (IsRemoved) {
             this.showMessage(`${currentBook} book successfully deleted.`, 'success')
         } else {
-            this.showMessage(`${currentBook} book deletion failed.`, 'error')
+            //Prevent unexpected error message after successfully deletion specific item.
+            if (this.isBookExists(isbn)){
+                this.showMessage(`${currentBook} book deletion failed.`, 'error')
+            }
         }
     }
 
     showMessage(text, type) {
         document.querySelector('.content').innerHTML = text;
         document.querySelector('.message').style = 'display:flex;';
-        if (type !== undefined){
+        if (type !== undefined) {
             document.querySelector('.message').className = `message ${type}`;
         }
 
@@ -114,28 +101,28 @@ class App {
         setTimeout(function () {
             document.querySelector('.content').innerHTML = '';
             document.querySelector('.message').style = 'display:none;';
-        },1000)
+        }, 1000)
     }
 
-    distributeBookData(parentElement, book, rowNumber= 0) {
+    distributeBookData(parentElement, book, rowNumber = 0) {
         parentElement.childNodes.forEach(function (childElement, indexNumber) {
-            if (indexNumber ===0){
+            if (indexNumber === 0) {
                 //add row serial number, when row number has been provide
                 //default value set 0
-                if (rowNumber !==0){
+                if (rowNumber !== 0) {
                     childElement.innerText = rowNumber;
                 }
             }
-            if (indexNumber ===1){
+            if (indexNumber === 1) {
                 childElement.innerText = book.name;
             }
-            if (indexNumber ===2){
+            if (indexNumber === 2) {
                 childElement.innerText = book.writer;
             }
-            if (indexNumber ===3){
+            if (indexNumber === 3) {
                 childElement.innerText = book.isbn;
             }
-            if (indexNumber ===4){
+            if (indexNumber === 4) {
                 //add name, writer and isbn for edit button
                 childElement.firstChild.setAttribute('data-name', book.name)
                 childElement.firstChild.setAttribute('data-writer', book.writer)
@@ -147,7 +134,7 @@ class App {
         });
     }
 
-    bindEditEvent(e){
+    bindEditEvent(e) {
         document.querySelector('#name').value = e.target.getAttribute('data-name');
         document.querySelector('#writer').value = e.target.getAttribute('data-writer');
         document.querySelector('#isbn').value = e.target.getAttribute('data-isbn');
@@ -155,6 +142,24 @@ class App {
         //Replace button value and attribute
         document.querySelector('#submit').value = 'Update Book';
         document.querySelector('#submit').setAttribute('data-job', 'update');
+    }
+
+    isBookExists(identifier, callback){
+        let IsFound = false;
+        let tableList = document.querySelector('#view-table-body')
+
+        tableList.childNodes.forEach(function (element) {
+            if (element.nodeName === 'TR') {
+                if (element.getAttribute('data-id') === identifier) {
+                    if (callback){
+                        callback(element);
+                    }
+                    IsFound = true;
+                }
+            }
+        });
+
+        return IsFound;
     }
 }
 

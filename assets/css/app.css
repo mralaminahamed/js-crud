@@ -1,5 +1,6 @@
 /*http://localhost:63342/js-crud/assets/css/app.css?_ijt=31rtlugvfv0ngaro4f31dren1o*/
 /*http://localhost:63342/js-crud/index.html?_ijt=uhfqlir65m14a62buf4dtv7o4o*/
+/*http://localhost:63342/js-crud/assets/css/app.css?_ijt=4igge18osjb0l7dtm0aorcfun3*/
 html:root {
     --blue-deep: #0777cc;
     --blue-deep-light: #34abe6;
@@ -126,12 +127,12 @@ body {
 .error {
     background-color: var(--red-300);
     border-left: 4px solid var(--red-300);
-    color: var(--red);
+    color: var(--white);
 }
 
 .success {
     background-color: var(--green-300);
-    border-left: 4px solid var(--green-300);
+    border-left: 4px solid var(--green);
     color: var(--green);
 }
 

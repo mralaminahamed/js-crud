@@ -24,7 +24,7 @@ class App {
         let bookIsbn = document.querySelector('#isbn').value;
 
         if (bookName === '' || bookWriter === '' || bookIsbn === '') {
-            this.showMessage('Please fill up the form')
+            this.showMessage('Please fill up the form', 'error')
         } else {
             let currentJob = e.getAttribute('data-job');
             let book = new Book(bookName, bookWriter, bookIsbn)
@@ -35,7 +35,7 @@ class App {
                 this.updateBook(book)
                 //this.makeEmptyElementValue()
             } else {
-                this.showMessage('Invalid Operation.')
+                this.showMessage('Invalid Operation.', 'error')
             }
         }
     }
@@ -54,8 +54,9 @@ class App {
         if (!IsMatchFound) {
             let curElNumber = tableList.childElementCount + 1;
             tableList.innerHTML += (`<tr data-id="${book.isbn}"><td>${curElNumber.toString()}</td><td>${book.name}</td><td>${book.writer}</td><td>${book.isbn}</td><td><button id="edit" data-name="${book.name}" data-writer="${book.writer}" data-isbn="${book.isbn}">Edit</button><button id="delete" data-isbn="${book.isbn}">Delete</button></td></tr>`);
+            this.showMessage(`${book.name} book added successfully.`, 'success')
         } else {
-            this.showMessage(`Insertion failed. ${book.name} book already exists.`)
+            this.showMessage(`Insertion failed. ${book.name} book already exists.`, 'error')
         }
     }
 
@@ -73,9 +74,9 @@ class App {
         });
 
         if (IsMatchFound) {
-            this.showMessage('Book updated successfully.')
+            this.showMessage('Book updated successfully.', 'success')
         } else {
-            this.showMessage('Book updating failed.')
+            this.showMessage('Book updating failed.', 'error')
         }
     }
 
@@ -96,15 +97,19 @@ class App {
         })
 
         if (IsRemoved) {
-            this.showMessage(`${currentBook} book successfully deleted.`)
+            this.showMessage(`${currentBook} book successfully deleted.`, 'success')
         } else {
-            this.showMessage(`${currentBook} book deletion failed.`)
+            this.showMessage(`${currentBook} book deletion failed.`, 'error')
         }
     }
 
-    showMessage(text) {
+    showMessage(text, type) {
         document.querySelector('.content').innerHTML = text;
         document.querySelector('.message').style = 'display:flex;';
+        if (type !== undefined){
+            document.querySelector('.message').className = `message ${type}`;
+        }
+
 
         setTimeout(function () {
             document.querySelector('.content').innerHTML = '';

@@ -10,6 +10,14 @@ class App {
     constructor() {
     }
 
+    makeEmptyElementValue(){
+        document.querySelector('#name').value = '';
+        document.querySelector('#writer').value = '';
+        document.querySelector('#isbn').value = '';
+        document.querySelector('#submit').value = 'Add Book';
+        document.querySelector('#submit').setAttribute('data-job', 'add');
+    }
+
     formProcess(e){
         let bookName = document.querySelector('#name').value;
         let bookWriter = document.querySelector('#writer').value;
@@ -22,8 +30,10 @@ class App {
             let book = new Book(bookName, bookWriter, bookIsbn)
             if (currentJob==='add'){
                 this.addBook(book)
+                this.makeEmptyElementValue()
             } else if (currentJob==='update'){
                 this.updateBook(book)
+                //this.makeEmptyElementValue()
             } else {
                 this.showMessage('Invalid Operation.')
             }
@@ -130,6 +140,16 @@ class App {
                 childElement.lastChild.setAttribute('data-isbn', book.isbn)
             }
         });
+    }
+
+    bindEditEvent(e){
+        document.querySelector('#name').value = e.target.getAttribute('data-name');
+        document.querySelector('#writer').value = e.target.getAttribute('data-writer');
+        document.querySelector('#isbn').value = e.target.getAttribute('data-isbn');
+
+        //Replace button value and attribute
+        document.querySelector('#submit').value = 'Update Book';
+        document.querySelector('#submit').setAttribute('data-job', 'update');
     }
 }
 

@@ -1,3 +1,40 @@
+(function () {
+    //initialize element null value of form
+    (new App()).makeEmptyElementValue();
+
+
+    //add observer
+    // Create an observer instance linked to the callback function
+    const observer = new MutationObserver(function (mutationsList, observer) {
+        // Use traditional 'for loops' for IE 11
+        for(const mutation of mutationsList) {
+            if (mutation.type === 'childList') {
+                document.querySelectorAll('#edit').forEach(function (editButton) {
+                    editButton.addEventListener('click', function (e) {
+                        e.preventDefault();
+                        (new App()).bindEditEvent(e);
+                    })
+                })
+
+                document.querySelectorAll('#delete').forEach(function (deleteButton) {
+                    deleteButton.addEventListener('click', function (e) {
+                        e.preventDefault();
+                        (new App()).deleteBook(e.currentTarget);
+                    })
+                })
+            }
+        }
+    });
+
+    // Start observing the target node for configured mutations
+    observer.observe(
+        document.querySelector('#view-table-body'),
+        { childList: true, subtree: true }
+    );
+
+})();
+
+
 let bookList = [new Book('PHP', 'PHP owner', 'ISB12134'),
     new Book('JS', 'JS owner', 'ISB12135')
 ];
@@ -12,30 +49,5 @@ if (bookList.length > 0) {
 
 document.querySelector('form').addEventListener('submit', function (e) {
     e.preventDefault();
-    let app = new App();
-    app.formProcess(e.submitter);
+    (new App()).formProcess(e.submitter);
 });
-
-document.querySelectorAll('#edit').forEach(function (editButton) {
-    editButton.addEventListener('click', function (e) {
-        e.preventDefault();
-        document.querySelector('#name').value = this.getAttribute('data-name');
-        document.querySelector('#writer').value = this.getAttribute('data-writer');
-        document.querySelector('#isbn').value = this.getAttribute('data-isbn');
-
-        document.querySelector('#submit').value = 'Update Book';
-        document.querySelector('#submit').setAttribute('data-job', 'update');
-    })
-})
-
-document.querySelectorAll('#delete').forEach(function (deleteButton) {
-    deleteButton.addEventListener('click', function (e) {
-        e.preventDefault();
-        let app = new App();
-        app.deleteBook(e.currentTarget);
-    })
-})
-
-// document.querySelector('.close').addEventListener('click',function (e) {
-//     console.log(e)
-// })

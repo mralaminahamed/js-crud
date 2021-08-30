@@ -1,116 +1,28 @@
 /*http://localhost:63342/js-crud/assets/css/app.css?_ijt=31rtlugvfv0ngaro4f31dren1o*/
 /*http://localhost:63342/js-crud/index.html?_ijt=uhfqlir65m14a62buf4dtv7o4o*/
 html:root {
-    --blue-deep-black: #006194;
     --blue-deep: #0777cc;
     --blue-deep-light: #34abe6;
-    --blue-light-cyan: #52acf0;
-    --blue-light-malibu: #7ac3fb;
-    --blue-light-sky: #87cefa;
-    --blue-light: rgba(99, 221, 250, 0.32157);
     --red: red;
-    --red-light: #f7d7d4;
     --green: #4caf50;
-    --green-light: rgba(188, 247, 189, 0.7);
-    --grey: grey;
-    --grey-light: #d3d3d3;
-    --grey-light-very: #f7f7f7;
     --black: #000;
-    --yellow: #ff0;
-    --darkorchid: #9932cc;
-    --orchid-dark: #9932cc;
-    --orchid-light: #e1b4f7;
     --white: #fff;
     --blue-400: #7a7aff;
-    --green-100: #e3fff2;
     --green-300: #94f2c8;
-    --green-400: #72e0af;
-    --green-500: #22d492;
-    --purple-100: #fbf5ff;
-    --purple-200: #ecd3fd;
-    --purple-300: #d6bcfa;
-    --purple-400: #b794f4;
-    --purple-500: #7900f5;
-    --purple-600: #7107dc;
-    --purple-800: #4f0f8f;
-    --red-100: #ffebf3;
+    --red-200: #f9a09a94;
     --red-300: #fa85a2;
-    --red-400: #fa4e79;
-    --yellow-100: #fffdeb;
-    --yellow-200: #fff8c4;
-    --yellow-300: #fff394;
-    --yellow-400: #ffea4f;
-    --tint-50: rgba(0, 0, 150, 0.015);
-    --tint-100: rgba(0, 0, 150, 0.025);
-    --tint-200: rgba(0, 0, 100, 0.07);
-    --tint-300: rgba(25, 0, 100, 0.1);
-    --tint-400: rgba(20, 0, 100, 0.2);
-    --tint-500: rgba(30, 20, 90, 0.35);
-    --tint-600: rgba(30, 20, 70, 0.5);
-    --tint-700: rgba(15, 10, 60, 0.75);
-    --gray-50: #fcfcfd;
-    --gray-100: #f7f7fc;
     --gray-200: #eeeef5;
     --gray-300: #e8e5ef;
-    --gray-400: #d1cce0;
-    --gray-500: #b0adc5;
-    --gray-600: #8e89a2;
-    --gray-700: #4b476d;
-    --gray-800: #332f51;
-    --dark-white: #262632;
-    --dark-blue-400: #50f;
-    --dark-green-100: #20615a;
-    --dark-green-300: #376f7b;
-    --dark-green-500: #3f988e;
-    --dark-purple-100: #3c2e60;
-    --dark-purple-200: #513280;
-    --dark-purple-300: #685593;
-    --dark-purple-400: #6a5794;
-    --dark-purple-500: #7e6ba7;
-    --dark-purple-600: #917fb7;
-    --dark-purple-800: #9e8cc2;
-    --dark-red-100: #ffebf3;
-    --dark-red-300: #fa85a2;
-    --dark-red-400: #fa4e79;
-    --dark-yellow-100: #3d3931;
-    --dark-yellow-200: #5a4e35;
-    --dark-yellow-300: #776746;
-    --dark-yellow-400: #91795a;
-    --dark-tint-50: rgba(240, 240, 245, 0.05);
-    --dark-tint-100: rgba(240, 240, 245, 0.075);
-    --dark-tint-200: rgba(240, 240, 245, 0.1);
-    --dark-tint-300: rgba(240, 240, 245, 0.125);
-    --dark-tint-400: rgba(240, 240, 245, 0.25);
-    --dark-tint-500: rgba(240, 240, 245, 0.45);
-    --dark-tint-600: rgba(240, 240, 245, 0.55);
-    --dark-tint-700: rgba(240, 240, 245, 0.65);
-    --dark-gray-0: #1e1e28;
-    --dark-gray-50: #262632;
-    --dark-gray-100: #30303a;
-    --dark-gray-200: #333341;
-    --dark-gray-300: #4b4b55;
-    --dark-gray-400: #8e8ea0;
-    --dark-gray-500: #9898aa;
-    --dark-gray-600: #a5a5af;
-    --dark-gray-700: #d8d8df;
-    --dark-gray-800: #e6e6eb;
-    --dark-shadow-sm: "0 2px 0 var(--gray-0)";
-    --dark-shadow-default: "0 2px 0 var(--gray-50), 2px 4px 0 var(--gray-0)";
-    --dark-shadow-lg: "0 2px 0 var(--gray-100), 2px 4px 0 var(--gray-50), 4px 6px 0 var(--gray-0)";
-    --dark-shadow-input: "inset 0 2px 0 var(--gray-100)";
+
+    --dark-shadow-default: 0 2px 4px rgba(0, 0, 0, .12), 0 2px 3px rgba(0, 0, 0, .24);
+    --dark-shadow-button: 0 2px 4px rgba(76, 175, 80, .12), 0 2px 3px rgba(76, 175, 80, .24);
     --font-family-sans-serif: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans", sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji", SourceSansPro, SolaimanLipi;
     --font-family-monospace: SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
-    --breakpoint-xs: 0;
-    --breakpoint-sm: 576px;
-    --breakpoint-md: 768px;
-    --breakpoint-lg: 992px;
-    --breakpoint-xl: 1200px
 }
 
 * {
     -webkit-transition: 1s ease;
     -moz-transition: 1s time;
-    -ms-transition: 1s time;
     -o-transition: 1s time;
     transition: 1s time;
 }
@@ -151,9 +63,9 @@ body {
     background-color: var(--white);
     border-radius: .7rem;
 
-    -webkit-box-shadow: 0 2px 4px rgba(0, 0, 0, .12), 0 2px 3px rgba(0, 0, 0, .24);
-    -moz-box-shadow: 0 2px 4px rgba(0, 0, 0, .12), 0 2px 3px rgba(0, 0, 0, .24);
-    box-shadow: 0 2px 4px rgba(0, 0, 0, .12), 0 2px 3px rgba(0, 0, 0, .24);
+    -webkit-box-shadow: var(--dark-shadow-default);
+    -moz-box-shadow: var(--dark-shadow-default);
+    box-shadow: var(--dark-shadow-default);
 }
 
 .application-content-title {
@@ -182,9 +94,9 @@ body {
     -webkit-flex-direction: row;
     -ms-flex-direction: row;
 
-    -webkit-box-shadow: 0 2px 4px rgba(0, 0, 0, .12), 0 2px 3px rgba(0, 0, 0, .24);
-    -moz-box-shadow: 0 2px 4px rgba(0, 0, 0, .12), 0 2px 3px rgba(0, 0, 0, .24);
-    box-shadow: 0 2px 4px rgba(0, 0, 0, .12), 0 2px 3px rgba(0, 0, 0, .24);
+    -webkit-box-shadow: var(--dark-shadow-default);
+    -moz-box-shadow: var(--dark-shadow-default);
+    box-shadow: var(--dark-shadow-default);
 }
 
 .message .content {
@@ -198,7 +110,7 @@ body {
     height: 25px;
     width: 25px;
     font-size: 25px;
-    color: red;
+    color: var(--red);
    /* border: 1px solid;*/
     padding: 8px 8px 8px 8px;
     border-radius: 50px;
@@ -229,9 +141,9 @@ form {
     padding: 10px 15px;
     margin-bottom: 20px;
 
-    -webkit-box-shadow: 0 2px 4px rgba(0, 0, 0, .12), 0 2px 3px rgba(0, 0, 0, .24);
-    -moz-box-shadow: 0 2px 4px rgba(0, 0, 0, .12), 0 2px 3px rgba(0, 0, 0, .24);
-    box-shadow: 0 2px 4px rgba(0, 0, 0, .12), 0 2px 3px rgba(0, 0, 0, .24);
+    -webkit-box-shadow: var(--dark-shadow-default);
+    -moz-box-shadow: var(--dark-shadow-default);
+    box-shadow: var(--dark-shadow-default);
 }
 
 form div {
@@ -277,9 +189,9 @@ form input[type=submit] {
 
     border: none;
 
-    -webkit-box-shadow: 0 2px 4px rgba(76, 175, 80, .12), 0 2px 3px rgba(76, 175, 80, .24);
-    -moz-box-shadow: 0 2px 4px rgba(76, 175, 80, .12), 0 2px 3px rgba(76, 175, 80, .24);
-    box-shadow: 0 2px 4px rgba(76, 175, 80, .12), 0 2px 3px rgba(76, 175, 80, .24);
+    -webkit-box-shadow: var(--dark-shadow-button);
+    -moz-box-shadow: var(--dark-shadow-button);
+    box-shadow: var(--dark-shadow-button);
 }
 
 form input[type=submit]:hover {
@@ -294,16 +206,16 @@ button[id=edit] {
     font-family: inherit;
     font-size: 16px;
 
-    color: black;
+    color: var(--black);
     background: #E7E7E780;
 
     cursor: pointer;
 
     border: none;
 
-    -webkit-box-shadow: 0 2px 4px rgba(76, 175, 80, .12), 0 2px 3px rgba(76, 175, 80, .24);
-    -moz-box-shadow: 0 2px 4px rgba(76, 175, 80, .12), 0 2px 3px rgba(76, 175, 80, .24);
-    box-shadow: 0 2px 4px rgba(76, 175, 80, .12), 0 2px 3px rgba(76, 175, 80, .24);
+    -webkit-box-shadow: var(--dark-shadow-button);
+    -moz-box-shadow: var(--dark-shadow-button);
+    box-shadow: var(--dark-shadow-button);
 }
 
 
@@ -320,19 +232,19 @@ button[id=delete] {
     font-family: inherit;
     font-size: 16px;
 
-    color: white;
-    background: #F4433680;
+    color: var(--white);
+    background: var(--red-200);
 
     cursor: pointer;
 
     border: none;
 
-    -webkit-box-shadow: 0 2px 4px rgba(76, 175, 80, .12), 0 2px 3px rgba(76, 175, 80, .24);
-    -moz-box-shadow: 0 2px 4px rgba(76, 175, 80, .12), 0 2px 3px rgba(76, 175, 80, .24);
-    box-shadow: 0 2px 4px rgba(76, 175, 80, .12), 0 2px 3px rgba(76, 175, 80, .24);
+    -webkit-box-shadow: var(--dark-shadow-button);
+    -moz-box-shadow: var(--dark-shadow-button);
+    box-shadow: var(--dark-shadow-button);
 }
 button[id=delete]:hover {
-    background: #f44336;
+    background: var(--red);
 }
 
 table {
@@ -344,9 +256,9 @@ table {
 
     line-height: 28px;
 
-    -webkit-box-shadow: 0 2px 4px rgba(0, 0, 0, .12), 0 2px 3px rgba(0, 0, 0, .24);
-    -moz-box-shadow: 0 2px 4px rgba(0, 0, 0, .12), 0 2px 3px rgba(0, 0, 0, .24);
-    box-shadow: 0 2px 4px rgba(0, 0, 0, .12), 0 2px 3px rgba(0, 0, 0, .24);
+    -webkit-box-shadow: var(--dark-shadow-default);
+    -moz-box-shadow: var(--dark-shadow-default);
+    box-shadow: var(--dark-shadow-default);
 }
 
 table thead {

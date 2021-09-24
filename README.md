@@ -2,7 +2,7 @@
 I have created a Simple JS CRUD application with vanila js and css.
 
 ## What can i do?
-I can do with this applicaiton, add new data to table, edit any data and delete from this table.
+I can do with this application, add new data to table, edit any data and delete from this table.
 
 ## Screenshots
 <img src="https://raw.githubusercontent.com/mralaminahamed/js-crud/main/screenhots/Empty-page-JS-Crud.png"/>

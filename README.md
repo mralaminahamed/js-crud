@@ -1,5 +1,5 @@
 # Simple JS Crud Application
-I have created a Simple JS CRUD application with vanila js and css.
+I have created a Simple JS CRUD application with vanilla js and css.
 
 ## What can i do?
 I can do with this application, add new data to table, edit any data and delete from this table.

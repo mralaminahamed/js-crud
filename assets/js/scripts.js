@@ -48,21 +48,24 @@
     }
 })();
 
-
-
-// let bookList = [new Book('PHP', 'PHP owner', 'ISB12134'),
-//     new Book('JS', 'JS owner', 'ISB12135')
-// ];
-
-
-// if (bookList.length > 0) {
-//     bookList.forEach(function (book, sn) {
-//         let html = `<tr data-id="${book.isbn}"><td>${++sn}</td><td>${book.name}</td><td>${book.writer}</td><td>${book.isbn}</td><td><button id="edit" data-name="${book.name}" data-writer="${book.writer}" data-isbn="${book.isbn}">Edit</button><button id="delete" data-isbn="${book.isbn}">Delete</button></td></tr>`;
-//         document.querySelector('#view-table-body').innerHTML += html;
-//     })
-// }
-
 document.querySelector('form').addEventListener('submit', function (e) {
     e.preventDefault();
     (new App()).formProcess(e.submitter);
 });
+
+
+document.querySelector('#add-book-shortcut').addEventListener('click',function (e) {
+    e.preventDefault();
+    if (e.target.tagName === 'SPAN'){
+        if (this.textContent.trim() === '+'){
+            e.target.innerHTML = '×';
+            document.querySelector('form').style = 'display:flex;';
+        } else if (this.textContent.trim() === '×'){
+            e.target.innerHTML = '+';
+            document.querySelector('form').style = 'display:none;';
+        } else {
+            document.querySelector('form').style = 'display:none;';
+        }
+    }
+
+})

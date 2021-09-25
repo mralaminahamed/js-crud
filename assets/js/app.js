@@ -29,7 +29,7 @@ class App {
         let bookIsbn = document.querySelector('#isbn').value;
 
         if (bookName === '' || bookWriter === '' || bookIsbn === '') {
-            this.showMessage('Please fill up the form', 'error')
+            self.showMessage('Please fill up the form', 'error')
         } else {
             let currentJob = e.getAttribute('data-job');
             let book = new Book(bookName, bookWriter, bookIsbn)
@@ -38,9 +38,10 @@ class App {
                 this.makeEmptyElementValue()
             } else if (currentJob === 'update') {
                 this.updateBook(book)
-                //this.makeEmptyElementValue()
+                this.makeEmptyElementValue()
             } else {
-                this.showMessage('Invalid Operation.', 'error')
+                self.showMessage('Invalid Operation.', 'error')
+                this.makeEmptyElementValue()
             }
         }
     }
@@ -53,26 +54,26 @@ class App {
         }
         if (!this.isExists(book.isbn)) {
             this.viewTableElement.appendChild(this.makeRow(book.isbn, book));
-            this.showMessage(`${book.name} book added successfully.`, 'success')
+            self.showMessage(`${book.name} book added successfully.`, 'success')
         } else {
-            this.showMessage(`Insertion failed. ${book.name} book already exists.`, 'error')
+            self.showMessage(`Insertion failed. ${book.name} book already exists.`, 'error')
         }
     }
 
     updateBook(book) {
-        let self = this;
         let IsUpdated = false;
 
         if (this.isExists(book.isbn)){
+            let self = this;
             IsUpdated = this.isExists(book.isbn, function (element) {
                 self.distributeBookData(element, book, 0);
             })
         }
 
         if (IsUpdated) {
-            this.showMessage('Book updated successfully.', 'success')
+            self.showMessage('Book updated successfully.', 'success')
         } else {
-            this.showMessage('Book updating failed.', 'error')
+            self.showMessage('Book updating failed.', 'error')
         }
     }
 
@@ -88,21 +89,24 @@ class App {
             })
         }
 
+        //clear form values if not empty
+        this.makeEmptyElementValue();
+
         if (IsRemoved) {
-            this.showMessage(`${currentBook} book successfully deleted.`, 'success')
+            self.showMessage(`${currentBook} book successfully deleted.`, 'success')
         } else {
             //Prevent unexpected error message after successfully deletion specific item.
             if (this.isExists(isbn)){
-                this.showMessage(`${currentBook} book deletion failed.`, 'error')
+                self.showMessage(`${currentBook} book deletion failed.`, 'error')
             }
         }
     }
 
-    showMessage(text, type) {
+    static showMessage(text, type) {
         document.querySelector('.content').innerHTML = text;
         document.querySelector('.message').style = 'display:flex;';
         if (type !== undefined) {
-            document.querySelector('.message').className = `message ${type}`;
+            document.querySelector('.message').className = `message border-radius-5px box-shadow-default ${type}`;
         }
 
 
@@ -173,7 +177,7 @@ class App {
         tr.setAttribute('id', rowId)
         if (book){
             let curElNumber = this.viewTableElement.childElementCount + 1;
-            tr.innerHTML = (`<td>${curElNumber.toString()}</td><td>${book.name}</td><td>${book.writer}</td><td>${book.isbn}</td><td><button id="edit" data-name="${book.name}" data-writer="${book.writer}" data-isbn="${book.isbn}">Edit</button><button id="delete" data-isbn="${book.isbn}">Delete</button></td>`);
+            tr.innerHTML = (`<td>${curElNumber.toString()}</td><td>${book.name}</td><td>${book.writer}</td><td>${book.isbn}</td><td><button class="background-image box-shadow-dark" id="edit" data-name="${book.name}" data-writer="${book.writer}" data-isbn="${book.isbn}">Edit</button><button class="background-image box-shadow-dark" id="delete" data-isbn="${book.isbn}">Delete</button></td>`);
         } else {
             let td = document.createElement("td")
             td.setAttribute('colspan', '5')

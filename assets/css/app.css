@@ -9,6 +9,7 @@ html:root {
     --black: #000;
     --white: #fff;
     --blue-400: #7a7aff;
+    --green-200: rgba(148, 242, 200, 0.5);
     --green-300: #94f2c8;
     --red-200: #f9a09a94;
     --red-300: #fa85a2;
@@ -22,10 +23,10 @@ html:root {
 }
 
 * {
-    -webkit-transition: 1s ease;
-    -moz-transition: 1s time;
-    -o-transition: 1s time;
-    transition: 1s time;
+    -webkit-transition: 300ms ease 0ms;
+    -moz-transition: 300ms ease 0ms;
+    -o-transition: 300ms ease 0ms;
+    transition: 300ms ease 0ms;
 }
 
 html {
@@ -35,6 +36,12 @@ html {
     overflow-x: hidden;
     overflow-y: scroll
 }
+
+.clean {
+    margin: 0;
+    padding: 0;
+}
+
 
 body {
     margin: 0;
@@ -46,7 +53,9 @@ body {
     font-family: var(--font-family-sans-serif);
 
     background: transparent;
+}
 
+.flex-column-center {
     display: flex;
     align-items: center;
     flex-direction: column;
@@ -63,10 +72,28 @@ body {
 
     background-color: var(--white);
     border-radius: .7rem;
+}
 
+.box-shadow-default {
     -webkit-box-shadow: var(--dark-shadow-default);
     -moz-box-shadow: var(--dark-shadow-default);
     box-shadow: var(--dark-shadow-default);
+}
+
+.box-shadow-dark {
+    -webkit-box-shadow: var(--dark-shadow-button);
+    -moz-box-shadow: var(--dark-shadow-button);
+    box-shadow: var(--dark-shadow-button);
+}
+
+.background-image {
+    background-image: linear-gradient(180deg, rgba(0, 0, 0, .05) 0%, rgba(0, 0, 0, .1) 100%);
+}
+
+.border-radius-5px {
+    -webkit-border-radius: 5px;
+    -moz-border-radius: 5px;
+    border-radius: 5px;
 }
 
 .application-content-title {
@@ -86,7 +113,7 @@ body {
     margin-top: 20px;
     margin-bottom: 20px;
 
-    font-size: 14px;
+    font-size: 15px;
     line-height: 24px;
 
     display: none;
@@ -94,10 +121,6 @@ body {
     flex-direction: row;
     -webkit-flex-direction: row;
     -ms-flex-direction: row;
-
-    -webkit-box-shadow: var(--dark-shadow-default);
-    -moz-box-shadow: var(--dark-shadow-default);
-    box-shadow: var(--dark-shadow-default);
 }
 
 .message .content {
@@ -112,7 +135,7 @@ body {
     width: 25px;
     font-size: 25px;
     color: var(--red);
-   /* border: 1px solid;*/
+    /* border: 1px solid;*/
     padding: 8px 8px 8px 8px;
     border-radius: 50px;
 
@@ -131,20 +154,16 @@ body {
 }
 
 .success {
-    background-color: var(--green-300);
+    background-color: var(--green-200);
     border-left: 4px solid var(--green);
     color: var(--green);
 }
 
 form {
-    display: flex;
+    display: none;
     flex-direction: column;
     padding: 10px 15px;
     margin-bottom: 20px;
-
-    -webkit-box-shadow: var(--dark-shadow-default);
-    -moz-box-shadow: var(--dark-shadow-default);
-    box-shadow: var(--dark-shadow-default);
 }
 
 form div {
@@ -167,7 +186,7 @@ form label:last-child {
     margin-left: 0;
 }
 
-form input[type=text]{
+form input[type=text] {
     font-family: inherit;
     font-size: 18px;
     margin-top: 10px;
@@ -182,21 +201,15 @@ form input[type=submit] {
 
     font-family: inherit;
     font-size: 18px;
-
     color: var(--white);
-    background: var(--blue-deep-light);
-
     cursor: pointer;
-
     border: none;
 
-    -webkit-box-shadow: var(--dark-shadow-button);
-    -moz-box-shadow: var(--dark-shadow-button);
-    box-shadow: var(--dark-shadow-button);
+    background-color: var(--blue-deep-light);
 }
 
 form input[type=submit]:hover {
-    background: var(--blue-deep);
+    background-color: var(--blue-deep);
 }
 
 
@@ -206,24 +219,18 @@ button[id=edit] {
 
     font-family: inherit;
     font-size: 16px;
-
     color: var(--black);
-    background: #E7E7E780;
-
     cursor: pointer;
 
     border: none;
 
-    -webkit-box-shadow: var(--dark-shadow-button);
-    -moz-box-shadow: var(--dark-shadow-button);
-    box-shadow: var(--dark-shadow-button);
+    background-color: #E7E7E780;
 }
 
 
 button[id=edit]:hover {
-    background: #e7e7e7;
+    background-color: #e7e7e7;
 }
-
 
 
 button[id=delete] {
@@ -232,20 +239,15 @@ button[id=delete] {
 
     font-family: inherit;
     font-size: 16px;
-
     color: var(--white);
-    background: var(--red-200);
-
     cursor: pointer;
 
     border: none;
-
-    -webkit-box-shadow: var(--dark-shadow-button);
-    -moz-box-shadow: var(--dark-shadow-button);
-    box-shadow: var(--dark-shadow-button);
+    background-color: var(--red-300);
 }
+
 button[id=delete]:hover {
-    background: var(--red);
+    background-color: var(--red);
 }
 
 table {
@@ -254,17 +256,18 @@ table {
     height: auto;
     text-align: left;
     width: 100%;
-
     line-height: 28px;
-
-    -webkit-box-shadow: var(--dark-shadow-default);
-    -moz-box-shadow: var(--dark-shadow-default);
-    box-shadow: var(--dark-shadow-default);
 }
 
 table thead {
     font-weight: bold;
-    background: var(--gray-300);
+    background-color: var(--gray-300);
+
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+
 }
 
 table tr td {
@@ -275,4 +278,27 @@ table tr td {
 table tr td:last-child {
     text-align: center;
     width: 175px;
+}
+
+.add-icon-wrapper {
+    display: flex;
+    justify-content: end;
+    margin-bottom: 10px;
+
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+}
+
+.add-icon {
+    font-size: 24px;
+    padding: 0 3px 5px;
+    background: var(--blue-deep);
+    border-radius: 50%;
+    width: 35px;
+    color: white;
+    text-align: center;
+    font-weight: bold;
+    cursor: pointer;
 }

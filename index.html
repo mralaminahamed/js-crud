@@ -6,15 +6,19 @@
     <title>JS Crud!</title>
     <link href="assets/css/app.css" rel="stylesheet">
 </head>
-<body>
+<body class="flex-column-center">
 
-<div class="application">
+<div class="application box-shadow-default">
     <div class="application-content-title">Book list</div>
-    <div class="message">
+    <div class="message border-radius-5px box-shadow-default">
         <div class="content"></div>
         <!--<div class="close"><i class="far fa-times-circle"></i></div>-->
     </div>
-    <form action="?#" enctype="application/x-www-form-urlencoded" method="get">
+    <div id="add-book-shortcut" class="add-icon-wrapper">
+        <span class="add-icon">+</span>
+    </div>
+    <form action="?#" enctype="application/x-www-form-urlencoded" method="get"
+          class="box-shadow-default border-radius-5px">
         <div class="inline-input-elements">
             <label>
                 book name
@@ -29,11 +33,12 @@
                 <input type="text" id="isbn" placeholder="Book's ISBN number">
             </label>
         </div>
-        <input type="submit" value="Add book" data-job="add" id="submit">
+        <input class="border-radius-5px box-shadow-dark background-image" type="submit" value="Add book" data-job="add"
+               id="submit">
     </form>
 
-    <table id="view-table">
-        <thead>
+    <table id="view-table" class="box-shadow-default border-radius-5px">
+        <thead class="background-image">
         <tr>
             <td>#</td>
             <td>Name</td>

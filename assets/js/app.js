@@ -29,7 +29,7 @@ class App {
         let bookIsbn = document.querySelector('#isbn').value;
 
         if (bookName === '' || bookWriter === '' || bookIsbn === '') {
-            self.showMessage('Please fill up the form', 'error')
+            App.showMessage('Please fill up the form', 'error')
         } else {
             let currentJob = e.getAttribute('data-job');
             let book = new Book(bookName, bookWriter, bookIsbn)
@@ -40,7 +40,7 @@ class App {
                 this.updateBook(book)
                 this.makeEmptyElementValue()
             } else {
-                self.showMessage('Invalid Operation.', 'error')
+                App.showMessage('Invalid Operation.', 'error')
                 this.makeEmptyElementValue()
             }
         }
@@ -54,9 +54,9 @@ class App {
         }
         if (!this.isExists(book.isbn)) {
             this.viewTableElement.appendChild(this.makeRow(book.isbn, book));
-            self.showMessage(`${book.name} book added successfully.`, 'success')
+            App.showMessage(`${book.name} book added successfully.`, 'success')
         } else {
-            self.showMessage(`Insertion failed. ${book.name} book already exists.`, 'error')
+            App.showMessage(`Insertion failed. ${book.name} book already exists.`, 'error')
         }
     }
 
@@ -71,9 +71,9 @@ class App {
         }
 
         if (IsUpdated) {
-            self.showMessage('Book updated successfully.', 'success')
+            App.showMessage('Book updated successfully.', 'success')
         } else {
-            self.showMessage('Book updating failed.', 'error')
+            App.showMessage('Book updating failed.', 'error')
         }
     }
 
@@ -93,11 +93,11 @@ class App {
         this.makeEmptyElementValue();
 
         if (IsRemoved) {
-            self.showMessage(`${currentBook} book successfully deleted.`, 'success')
+            App.showMessage(`${currentBook} book successfully deleted.`, 'success')
         } else {
             //Prevent unexpected error message after successfully deletion specific item.
             if (this.isExists(isbn)){
-                self.showMessage(`${currentBook} book deletion failed.`, 'error')
+                App.showMessage(`${currentBook} book deletion failed.`, 'error')
             }
         }
     }

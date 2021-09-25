@@ -64,7 +64,7 @@ document.querySelector('#add-book-shortcut').addEventListener('click',function (
             e.target.innerHTML = '+';
             document.querySelector('form').style = 'display:none;';
         } else {
-            document.querySelector('form').style = 'display:none;';
+            App.showMessage('Invalid command.','error')
         }
     }
 

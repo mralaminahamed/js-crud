@@ -171,6 +171,10 @@ form div {
     flex-direction: row;
 }
 
+.inline-button-elements input:last-child{
+    margin-left: 10px;
+}
+
 form label {
     display: flex;
     flex-direction: column;
@@ -193,18 +197,23 @@ form input[type=text] {
     padding: 5px 10px;
 }
 
-form input[type=submit] {
-    width: 140px;
-
-    margin-top: 20px;
+form input[type=submit], form input[type=reset], button[id=edit], button[id=delete] {
     padding: 5px 15px;
-
     font-family: inherit;
-    font-size: 18px;
-    color: var(--white);
     cursor: pointer;
     border: none;
 
+}
+
+form input[type=submit], form input[type=reset] {
+    width: 140px;
+
+    margin-top: 20px;
+    font-size: 18px;
+    color: var(--white);
+}
+
+form input[type=submit]{
     background-color: var(--blue-deep-light);
 }
 
@@ -212,18 +221,22 @@ form input[type=submit]:hover {
     background-color: var(--blue-deep);
 }
 
+form input[type=reset]{
+    background-color: var(--red-200);
+}
+
+form input[type=reset]:hover {
+    background-color: var(--red);
+}
+
+
+button[id=edit], button[id=delete] {
+    margin: 10px;
+    font-size: 16px;
+}
 
 button[id=edit] {
-    margin: 10px;
-    padding: 5px 15px;
-
-    font-family: inherit;
-    font-size: 16px;
     color: var(--black);
-    cursor: pointer;
-
-    border: none;
-
     background-color: #E7E7E780;
 }
 
@@ -234,17 +247,7 @@ button[id=edit]:hover {
 
 
 button[id=delete] {
-    margin: 10px;
-    padding: 5px 15px;
-
-    font-family: inherit;
-    font-size: 16px;
     color: var(--white);
-    background: var(--red-300);
-
-    cursor: pointer;
-
-    border: none;
     background-color: var(--red-300);
 }
 

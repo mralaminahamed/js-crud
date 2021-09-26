@@ -154,6 +154,8 @@ class App {
         //Replace button value and attribute
         document.querySelector('#submit').value = 'Update Book';
         document.querySelector('#submit').setAttribute('data-job', 'update');
+        document.querySelector('#submit').value = 'Update Book';
+        document.querySelector('#isbn').setAttribute('readonly', '');
 
 
         if(document.querySelector('form').style.display === 'none'){

@@ -304,3 +304,8 @@ table tr td:last-child {
     font-weight: bold;
     cursor: pointer;
 }
+
+
+.add-icon:active {
+    transform: rotate(45deg);
+}

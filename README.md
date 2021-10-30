@@ -1,6 +1,8 @@
 # Simple JS Crud Application
 I have created a Simple JS CRUD application with vanilla js and css.
 
+[![Netlify Status](https://api.netlify.com/api/v1/badges/93ea1569-86fc-469f-beff-39cdf8d44160/deploy-status)](https://app.netlify.com/sites/simple-js-crud/deploys)
+
 ## Another Source code
 BitBucket : https://bitbucket.org/mralaminahamed/js-crud
 

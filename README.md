@@ -15,4 +15,4 @@ I can do with this application, add new data to table, edit any data and delete 
 <img src="https://raw.githubusercontent.com/mralaminahamed/js-crud/main/screenhots/edit-JS-Crud.png"/>
 
 ## Live Demo
-demo site https://peaceful-noyce-2711a0.netlify.app/
+demo site https://simple-js-crud.netlify.app/

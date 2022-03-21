@@ -19,6 +19,7 @@ class App {
         document.querySelector('#name').value = '';
         document.querySelector('#writer').value = '';
         document.querySelector('#isbn').value = '';
+        document.querySelector('#isbn').removeAttribute('readonly');
         document.querySelector('#submit').value = 'Add Book';
         document.querySelector('#submit').setAttribute('data-job', 'add');
     }
@@ -155,7 +156,7 @@ class App {
         document.querySelector('#submit').value = 'Update Book';
         document.querySelector('#submit').setAttribute('data-job', 'update');
         document.querySelector('#submit').value = 'Update Book';
-        document.querySelector('#isbn').setAttribute('readonly', '');
+        document.querySelector('#isbn').setAttribute('readonly', 'readonly');
 
 
         if(document.querySelector('form').style.display === 'none'){

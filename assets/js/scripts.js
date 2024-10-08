@@ -1,71 +1,55 @@
-(function () {
-    //initialize element null value of form
-    let bookApp = new App();
-    let viewTableBody = bookApp.viewTable();
+document.addEventListener('DOMContentLoaded', () => {
+  const app = new App();
 
-    bookApp.makeEmptyElementValue();
+  // Initialize the table with sample data
+  const sampleBooks = [
+    new Book('To Kill a Mockingbird', 'Harper Lee', '9780446310789'),
+    new Book('1984', 'George Orwell', '9780451524935'),
+    new Book('The Great Gatsby', 'F. Scott Fitzgerald', '9780743273565')
+  ];
 
-    //add observer
-    // Create an observer instance linked to the callback function
-    const observer = new MutationObserver(function (mutationsList, observer) {
-        // Use traditional 'for loops' for IE 11
-        for(const mutation of mutationsList) {
-            if (mutation.type === 'childList') {
-                //Table body count one text child on row update state
-                if (mutation.target.nodeName==='TBODY'){
-                    if (mutation.target.childNodes.length === 1){
-                        mutation.target.appendChild(
-                            bookApp.makeRow('empty-data')
-                        )
-                    }
-                }
+  sampleBooks.forEach(book => app.addBook(book));
 
-                document.querySelectorAll('#edit').forEach(function (editButton) {
-                    editButton.addEventListener('click', function (e) {
-                        e.preventDefault();
-                        bookApp.bindEditEvent(e);
-                    })
-                })
+  // Add sorting functionality
+  const tableHeaders = document.querySelectorAll('.books-table th');
+  tableHeaders.forEach(header => {
+    header.addEventListener('click', () => {
+      const index = Array.from(header.parentNode.children).indexOf(header);
+      const isAscending = header.classList.toggle('sort-asc');
+      app.books.sort((a, b) => {
+        const aValue = Object.values(a)[index];
+        const bValue = Object.values(b)[index];
+        return isAscending ? aValue.localeCompare(bValue) : bValue.localeCompare(aValue);
+      });
+      app.renderBooks();
+    });
+  });
 
-                document.querySelectorAll('#delete').forEach(function (deleteButton) {
-                    deleteButton.addEventListener('click', function (e) {
-                        e.preventDefault();
-                        bookApp.deleteBook(e.currentTarget);
-                    })
-                })
-            }
-        }
+  // Add keyboard shortcuts
+  document.addEventListener('keydown', (e) => {
+    if (e.ctrlKey && e.key === 'b') {
+      e.preventDefault();
+      app.toggleForm();
+    }
+  });
+
+  // Add form validation
+  app.form.querySelectorAll('input[type="text"]').forEach(input => {
+    input.addEventListener('input', () => {
+      input.setCustomValidity('');
+      input.checkValidity();
     });
 
-    // Start observing the target node for configured mutations
-    observer.observe(viewTableBody, { childList: true, subtree: true });
+    input.addEventListener('invalid', () => {
+      if (input.value === '') {
+        input.setCustomValidity('This field is required');
+      }
+    });
+  });
 
-    //Actually table body has zero child, on document ready state
-    if (viewTableBody.childElementCount=== 0){
-        viewTableBody.appendChild(
-            bookApp.makeRow('empty-data')
-        )
-    }
-})();
-
-document.querySelector('form').addEventListener('submit', function (e) {
-    e.preventDefault();
-    (new App()).formProcess(e.submitter);
+  // Initialize tooltips
+  const tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'));
+  tooltipTriggerList.map(function (tooltipTriggerEl) {
+    return new bootstrap.Tooltip(tooltipTriggerEl);
+  });
 });
-
-
-document.querySelector('#add-book-shortcut').addEventListener('click',function (e) {
-    e.preventDefault();
-    if (e.target.tagName === 'SPAN'){
-        if (this.textContent.trim() === '+'){
-            e.target.innerHTML = '×';
-            document.querySelector('form').style = 'display:flex;';
-        } else if (this.textContent.trim() === '×'){
-            e.target.innerHTML = '+';
-            document.querySelector('form').style = 'display:none;';
-        } else {
-            App.showMessage('Invalid command.','error')
-        }
-    }
-
-})

@@ -1,198 +1,191 @@
 class Book {
-    constructor(name, writer, isbn) {
-        this.name = name
-        this.writer = writer
-        this.isbn = isbn
-    }
+  constructor(name, writer, isbn) {
+    this.name = name;
+    this.writer = writer;
+    this.isbn = isbn;
+  }
 }
 
 class App {
-    constructor() {
-        this.viewTableElement = document.querySelector('#view-table-body')
+  constructor() {
+    this.books = [];
+    this.viewTableElement = document.querySelector('#view-table-body');
+    this.form = document.querySelector('#book-form');
+    this.nameInput = document.querySelector('#name');
+    this.writerInput = document.querySelector('#writer');
+    this.isbnInput = document.querySelector('#isbn');
+    this.submitButton = document.querySelector('#submit');
+    this.addBookBtn = document.querySelector('#add-book-btn');
+    this.exportBtn = document.querySelector('#export-btn');
+    this.searchInput = document.querySelector('#search-input');
+    this.messageSection = document.querySelector('#message-section');
+
+    this.bindEvents();
+  }
+
+  bindEvents() {
+    this.form.addEventListener('submit', (e) => this.handleFormSubmit(e));
+    this.addBookBtn.addEventListener('click', () => this.toggleForm());
+    this.exportBtn.addEventListener('click', () => this.exportToCSV());
+    this.viewTableElement.addEventListener('click', (e) => this.handleTableClick(e));
+    this.searchInput.addEventListener('input', (e) => this.handleSearch(e));
+  }
+
+  handleFormSubmit(e) {
+    e.preventDefault();
+    const book = new Book(this.nameInput.value, this.writerInput.value, this.isbnInput.value);
+    const isUpdate = this.submitButton.textContent === 'Update Book';
+
+    if (this.validateForm(book)) {
+      isUpdate ? this.updateBook(book) : this.addBook(book);
+      this.resetForm();
+      this.toggleForm();
     }
+  }
 
-    viewTable(){
-        return this.viewTableElement;
+  validateForm(book) {
+    if (!book.name || !book.writer || !book.isbn) {
+      this.showMessage('Please fill in all fields', 'error');
+      return false;
     }
+    return true;
+  }
 
-    makeEmptyElementValue() {
-        document.querySelector('#name').value = '';
-        document.querySelector('#writer').value = '';
-        document.querySelector('#isbn').value = '';
-        document.querySelector('#isbn').removeAttribute('readonly');
-        document.querySelector('#submit').value = 'Add Book';
-        document.querySelector('#submit').setAttribute('data-job', 'add');
+  addBook(book) {
+    if (this.books.some(b => b.isbn === book.isbn)) {
+      this.showMessage(`Book with ISBN ${book.isbn} already exists`, 'error');
+    } else {
+      this.books.push(book);
+      this.renderBooks();
+      this.showMessage(`${book.name} added successfully`, 'success');
     }
+  }
 
-    formProcess(e) {
-        let bookName = document.querySelector('#name').value;
-        let bookWriter = document.querySelector('#writer').value;
-        let bookIsbn = document.querySelector('#isbn').value;
-
-        if (bookName === '' || bookWriter === '' || bookIsbn === '') {
-            App.showMessage('Please fill up the form', 'error')
-        } else {
-            let currentJob = e.getAttribute('data-job');
-            let book = new Book(bookName, bookWriter, bookIsbn)
-            if (currentJob === 'add') {
-                this.addBook(book)
-                this.makeEmptyElementValue()
-            } else if (currentJob === 'update') {
-                this.updateBook(book)
-                this.makeEmptyElementValue()
-            } else {
-                App.showMessage('Invalid Operation.', 'error')
-                this.makeEmptyElementValue()
-            }
-        }
+  updateBook(book) {
+    const index = this.books.findIndex(b => b.isbn === book.isbn);
+    if (index !== -1) {
+      this.books[index] = book;
+      this.renderBooks();
+      this.showMessage(`${book.name} updated successfully`, 'success');
+    } else {
+      this.showMessage('Book not found', 'error');
     }
+  }
 
-    addBook(book) {
-        if (this.isExists('empty-data')){
-            this.isExists('empty-data', function (element) {
-                element.remove();
-            })
-        }
-        if (!this.isExists(book.isbn)) {
-            this.viewTableElement.appendChild(this.makeRow(book.isbn, book));
-            App.showMessage(`${book.name} book added successfully.`, 'success')
-        } else {
-            App.showMessage(`Insertion failed. ${book.name} book already exists.`, 'error')
-        }
+  deleteBook(isbn) {
+    const index = this.books.findIndex(b => b.isbn === isbn);
+    if (index !== -1) {
+      const deletedBook = this.books.splice(index, 1)[0];
+      this.renderBooks();
+      this.showMessage(`${deletedBook.name} deleted successfully`, 'success');
+    } else {
+      this.showMessage('Book not found', 'error');
     }
+  }
 
-    updateBook(book) {
-        let IsUpdated = false;
+  renderBooks() {
+    this.viewTableElement.innerHTML = '';
+    this.books.forEach(book => {
+      const row = this.createBookRow(book);
+      this.viewTableElement.appendChild(row);
+    });
+  }
 
-        if (this.isExists(book.isbn)){
-            let self = this;
-            IsUpdated = this.isExists(book.isbn, function (element) {
-                self.distributeBookData(element, book, 0);
-            })
-        }
+  createBookRow(book) {
+    const tr = document.createElement('tr');
+    tr.innerHTML = `
+      <td>${book.name}</td>
+      <td>${book.writer}</td>
+      <td>${book.isbn}</td>
+      <td class="table-actions">
+        <button class="btn btn-sm btn-edit" data-isbn="${book.isbn}">Edit</button>
+        <button class="btn btn-sm btn-delete" data-isbn="${book.isbn}">Delete</button>
+      </td>
+    `;
+    return tr;
+  }
 
-        if (IsUpdated) {
-            App.showMessage('Book updated successfully.', 'success')
-        } else {
-            App.showMessage('Book updating failed.', 'error')
-        }
+  handleTableClick(e) {
+    const target = e.target.closest('button');
+    if (!target) return;
+
+    const isbn = target.getAttribute('data-isbn');
+    if (target.classList.contains('btn-edit')) {
+      this.editBook(isbn);
+    } else if (target.classList.contains('btn-delete')) {
+      if (confirm('Are you sure you want to delete this book?')) {
+        this.deleteBook(isbn);
+      }
     }
+  }
 
-
-    deleteBook(e) {
-        let IsRemoved = false;
-        let currentBook = e.previousSibling.getAttribute('data-name');
-        let isbn = e.getAttribute('data-isbn');
-
-        if (this.isExists(isbn)){
-           IsRemoved = this.isExists(isbn, function (element) {
-                element.remove();
-            })
-        }
-
-        //clear form values if not empty
-        this.makeEmptyElementValue();
-
-        if (IsRemoved) {
-            App.showMessage(`${currentBook} book successfully deleted.`, 'success')
-        } else {
-            //Prevent unexpected error message after successfully deletion specific item.
-            if (this.isExists(isbn)){
-                App.showMessage(`${currentBook} book deletion failed.`, 'error')
-            }
-        }
+  editBook(isbn) {
+    const book = this.books.find(b => b.isbn === isbn);
+    if (book) {
+      this.nameInput.value = book.name;
+      this.writerInput.value = book.writer;
+      this.isbnInput.value = book.isbn;
+      this.isbnInput.readOnly = true;
+      this.submitButton.textContent = 'Update Book';
+      this.toggleForm(true);
     }
+  }
 
-    static showMessage(text, type) {
-        document.querySelector('.content').innerHTML = text;
-        document.querySelector('.message').style = 'display:flex;';
-        if (type !== undefined) {
-            document.querySelector('.message').className = `message border-radius-5px box-shadow-default ${type}`;
-        }
+  resetForm() {
+    this.form.reset();
+    this.isbnInput.readOnly = false;
+    this.submitButton.textContent = 'Add Book';
+  }
 
-
-        setTimeout(function () {
-            document.querySelector('.content').innerHTML = '';
-            document.querySelector('.message').style = 'display:none;';
-        }, 1000)
+  toggleForm(show = null) {
+    if (show === null) {
+      this.form.style.display = this.form.style.display === 'none' ? 'block' : 'none';
+    } else {
+      this.form.style.display = show ? 'block' : 'none';
     }
+    this.addBookBtn.textContent = this.form.style.display === 'none' ? '+ Add Book' : 'Cancel';
+  }
 
-    distributeBookData(parentElement, book, rowNumber = 0) {
-        parentElement.childNodes.forEach(function (childElement, indexNumber) {
-            if (indexNumber === 0) {
-                //add row serial number, when row number has been provide
-                //default value set 0
-                if (rowNumber !== 0) {
-                    childElement.innerText = rowNumber;
-                }
-            }
-            if (indexNumber === 1) {
-                childElement.innerText = book.name;
-            }
-            if (indexNumber === 2) {
-                childElement.innerText = book.writer;
-            }
-            if (indexNumber === 3) {
-                childElement.innerText = book.isbn;
-            }
-            if (indexNumber === 4) {
-                //add name, writer and isbn for edit button
-                childElement.firstChild.setAttribute('data-name', book.name)
-                childElement.firstChild.setAttribute('data-writer', book.writer)
-                childElement.firstChild.setAttribute('data-isbn', book.isbn)
+  showMessage(text, type) {
+    this.messageSection.innerHTML = `<div class="message message-${type}">${text}</div>`;
+    setTimeout(() => {
+      this.messageSection.innerHTML = '';
+    }, 3000);
+  }
 
-                //add isbn for delete button
-                childElement.lastChild.setAttribute('data-isbn', book.isbn)
-            }
-        });
+  handleSearch(e) {
+    const searchTerm = e.target.value.toLowerCase();
+    const filteredBooks = this.books.filter(book =>
+      book.name.toLowerCase().includes(searchTerm) ||
+      book.writer.toLowerCase().includes(searchTerm) ||
+      book.isbn.toLowerCase().includes(searchTerm)
+    );
+    this.renderFilteredBooks(filteredBooks);
+  }
+
+  renderFilteredBooks(filteredBooks) {
+    this.viewTableElement.innerHTML = '';
+    filteredBooks.forEach(book => {
+      const row = this.createBookRow(book);
+      this.viewTableElement.appendChild(row);
+    });
+  }
+
+  exportToCSV() {
+    const headers = ['Title', 'Author', 'ISBN'];
+    const csvContent = [
+      headers.join(','),
+      ...this.books.map(book => `${book.name},${book.writer},${book.isbn}`)
+    ].join('\n');
+
+    const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
+    const link = document.createElement('a');
+    if (navigator.msSaveBlob) {
+      navigator.msSaveBlob(blob, 'books.csv');
+    } else {
+      link.href = URL.createObjectURL(blob);
+      link.download = 'books.csv';
+      link.click();
     }
-
-    bindEditEvent(e) {
-        document.querySelector('#name').value = e.target.getAttribute('data-name');
-        document.querySelector('#writer').value = e.target.getAttribute('data-writer');
-        document.querySelector('#isbn').value = e.target.getAttribute('data-isbn');
-
-        //Replace button value and attribute
-        document.querySelector('#submit').value = 'Update Book';
-        document.querySelector('#submit').setAttribute('data-job', 'update');
-        document.querySelector('#submit').value = 'Update Book';
-        document.querySelector('#isbn').setAttribute('readonly', 'readonly');
-
-
-        if(document.querySelector('form').style.display === 'none'){
-            document.querySelector('form').style = 'display:flex;';
-        }
-    }
-
-    isExists(identifier, callback){
-        let IsFound = false;
-        this.viewTableElement.childNodes.forEach(function (element) {
-            if (element.nodeName === 'TR') {
-                if (element.getAttribute('id') === identifier) {
-                    if (callback){
-                        callback(element);
-                    }
-                    IsFound = true;
-                }
-            }
-        });
-
-        return IsFound;
-    }
-
-    makeRow(rowId, book){
-        let tr = document.createElement("tr")
-        tr.setAttribute('id', rowId)
-        if (book){
-            let curElNumber = this.viewTableElement.childElementCount + 1;
-            tr.innerHTML = (`<td>${curElNumber.toString()}</td><td>${book.name}</td><td>${book.writer}</td><td>${book.isbn}</td><td><button class="background-image box-shadow-dark" id="edit" data-name="${book.name}" data-writer="${book.writer}" data-isbn="${book.isbn}">Edit</button><button class="background-image box-shadow-dark" id="delete" data-isbn="${book.isbn}">Delete</button></td>`);
-        } else {
-            let td = document.createElement("td")
-            td.setAttribute('colspan', '5')
-            td.innerText = 'No data exists';
-            tr.appendChild(td);
-        }
-        return tr;
-    }
+  }
 }
-

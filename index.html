@@ -1,62 +1,52 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>JS Crud!</title>
-    <link href="assets/css/app.css" rel="stylesheet">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>BookTracker Pro</title>
+    <link rel="stylesheet" href="assets/css/app.css">
 </head>
-<body class="flex-column-center">
+<body>
+    <div class="app-container">
+        <header class="app-header">
+            <h1 class="app-title">BookTracker Pro</h1>
+            <div class="header-controls">
+                <input type="text" id="search-input" class="search-input" placeholder="Search books...">
+                <button id="add-book-btn" class="btn btn-primary">+ Add Book</button>
+                <button id="export-btn" class="btn btn-secondary">Export CSV</button>
+            </div>
+        </header>
+        
+        <main class="app-main">
+            <div id="message-section" class="message-section"></div>
 
-<div class="application box-shadow-default">
-    <div class="application-content-title">Book list</div>
-    <div class="message border-radius-5px box-shadow-default">
-        <div class="content"></div>
-        <!--<div class="close"><i class="far fa-times-circle"></i></div>-->
+            <form id="book-form" class="book-form">
+                <div class="form-row">
+                    <input type="text" id="name" placeholder="Book Title" required>
+                    <input type="text" id="writer" placeholder="Author" required>
+                    <input type="text" id="isbn" placeholder="ISBN" required>
+                </div>
+                <div class="form-actions">
+                    <button type="submit" id="submit" class="btn btn-primary">Add Book</button>
+                    <button type="reset" class="btn btn-secondary">Reset</button>
+                </div>
+            </form>
+
+            <table id="books-table" class="books-table">
+                <thead>
+                    <tr>
+                        <th>Title</th>
+                        <th>Author</th>
+                        <th>ISBN</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody id="view-table-body"></tbody>
+            </table>
+        </main>
     </div>
-    <div id="add-book-shortcut" class="add-icon-wrapper">
-        <span class="add-icon box-shadow-default">+</span>
-    </div>
-    <form action="?#" enctype="application/x-www-form-urlencoded" method="get"
-          class="box-shadow-default border-radius-5px">
-        <div class="inline-input-elements">
-            <label>
-                book name
-                <input type="text" id="name" placeholder="Book's name">
-            </label>
-            <label>
-                book writer
-                <input type="text" id="writer" placeholder="Book's writer name">
-            </label>
-            <label>
-                book isbn
-                <input type="text" id="isbn" placeholder="Book's ISBN number">
-            </label>
-        </div>
-        <div class="inline-button-elements">
-            <input class="border-radius-5px box-shadow-dark background-image" type="submit" value="Add book" data-job="add" id="submit"/>
-            <input class="border-radius-5px box-shadow-dark background-image" type="reset" value="Reset" data-job="reset" id="reset"/>
-        </div>
-    </form>
 
-    <table id="view-table" class="box-shadow-default border-radius-5px">
-        <thead class="background-image">
-        <tr>
-            <td>#</td>
-            <td>Name</td>
-            <td>Writer</td>
-            <td>ISBN</td>
-            <td>Action</td>
-        </tr>
-        </thead>
-        <tbody id="view-table-body">
-        </tbody>
-    </table>
-</div>
-
-
-<script src="assets/js/app.js"></script>
-<script src="assets/js/scripts.js"></script>
+    <script src="assets/js/app.js"></script>
+    <script src="assets/js/scripts.js"></script>
 </body>
 </html>
-

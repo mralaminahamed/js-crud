@@ -1,8 +1,11 @@
 class Book {
-  constructor(name, writer, isbn) {
+  constructor(name, writer, isbn, genre, publicationDate, rating) {
     this.name = name;
     this.writer = writer;
     this.isbn = isbn;
+    this.genre = genre;
+    this.publicationDate = publicationDate;
+    this.rating = rating;
   }
 }
 
@@ -14,11 +17,17 @@ class App {
     this.nameInput = document.querySelector('#name');
     this.writerInput = document.querySelector('#writer');
     this.isbnInput = document.querySelector('#isbn');
+    this.genreInput = document.querySelector('#genre');
+    this.publicationDateInput = document.querySelector('#publication-date');
+    this.ratingInput = document.querySelector('#rating');
     this.submitButton = document.querySelector('#submit');
     this.addBookBtn = document.querySelector('#add-book-btn');
     this.exportBtn = document.querySelector('#export-btn');
     this.searchInput = document.querySelector('#search-input');
     this.messageSection = document.querySelector('#message-section');
+    this.bookCountElement = document.querySelector('#book-count');
+    this.sortBtn = document.querySelector('#sort-btn');
+    this.filterBtn = document.querySelector('#filter-btn');
 
     this.bindEvents();
   }
@@ -33,7 +42,14 @@ class App {
 
   handleFormSubmit(e) {
     e.preventDefault();
-    const book = new Book(this.nameInput.value, this.writerInput.value, this.isbnInput.value);
+    const book = new Book(
+      this.nameInput.value,
+      this.writerInput.value,
+      this.isbnInput.value,
+      this.genreInput.value,
+      this.publicationDateInput.value,
+      parseInt(this.ratingInput.value)
+    );
     const isUpdate = this.submitButton.textContent === 'Update Book';
 
     if (this.validateForm(book)) {
@@ -44,10 +60,7 @@ class App {
   }
 
   validateForm(book) {
-    if (!book.name || !book.writer || !book.isbn) {
-      this.showMessage('Please fill in all fields', 'error');
-      return false;
-    }
+    // This method will be overridden in scripts.js
     return true;
   }
 
@@ -89,20 +102,12 @@ class App {
       const row = this.createBookRow(book);
       this.viewTableElement.appendChild(row);
     });
+    this.updateBookCount();
   }
 
   createBookRow(book) {
-    const tr = document.createElement('tr');
-    tr.innerHTML = `
-      <td>${book.name}</td>
-      <td>${book.writer}</td>
-      <td>${book.isbn}</td>
-      <td class="table-actions">
-        <button class="btn btn-sm btn-edit" data-isbn="${book.isbn}">Edit</button>
-        <button class="btn btn-sm btn-delete" data-isbn="${book.isbn}">Delete</button>
-      </td>
-    `;
-    return tr;
+    // This method will be overridden in scripts.js
+    return document.createElement('tr');
   }
 
   handleTableClick(e) {
@@ -125,6 +130,9 @@ class App {
       this.nameInput.value = book.name;
       this.writerInput.value = book.writer;
       this.isbnInput.value = book.isbn;
+      this.genreInput.value = book.genre;
+      this.publicationDateInput.value = book.publicationDate;
+      this.ratingInput.value = book.rating;
       this.isbnInput.readOnly = true;
       this.submitButton.textContent = 'Update Book';
       this.toggleForm(true);
@@ -143,7 +151,9 @@ class App {
     } else {
       this.form.style.display = show ? 'block' : 'none';
     }
-    this.addBookBtn.textContent = this.form.style.display === 'none' ? '+ Add Book' : 'Cancel';
+    this.addBookBtn.innerHTML = this.form.style.display === 'none' 
+      ? '<i class="fas fa-plus"></i> Add Book' 
+      : '<i class="fas fa-times"></i> Cancel';
   }
 
   showMessage(text, type) {
@@ -154,13 +164,7 @@ class App {
   }
 
   handleSearch(e) {
-    const searchTerm = e.target.value.toLowerCase();
-    const filteredBooks = this.books.filter(book =>
-      book.name.toLowerCase().includes(searchTerm) ||
-      book.writer.toLowerCase().includes(searchTerm) ||
-      book.isbn.toLowerCase().includes(searchTerm)
-    );
-    this.renderFilteredBooks(filteredBooks);
+    // This method will be overridden in scripts.js
   }
 
   renderFilteredBooks(filteredBooks) {
@@ -169,13 +173,21 @@ class App {
       const row = this.createBookRow(book);
       this.viewTableElement.appendChild(row);
     });
+    this.updateBookCount(filteredBooks.length);
+  }
+
+  updateBookCount(count = null) {
+    const bookCount = count !== null ? count : this.books.length;
+    this.bookCountElement.textContent = `${bookCount} book${bookCount !== 1 ? 's' : ''}`;
   }
 
   exportToCSV() {
-    const headers = ['Title', 'Author', 'ISBN'];
+    const headers = ['Title', 'Author', 'ISBN', 'Genre', 'Publication Date', 'Rating'];
     const csvContent = [
       headers.join(','),
-      ...this.books.map(book => `${book.name},${book.writer},${book.isbn}`)
+      ...this.books.map(book => 
+        `${book.name},${book.writer},${book.isbn},${book.genre},${book.publicationDate},${book.rating}`
+      )
     ].join('\n');
 
     const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });

@@ -1,67 +1,52 @@
 class Book {
-  constructor(name, writer, isbn, genre, publicationDate, rating) {
+  constructor(name, writer, isbn, genre, publicationDate, rating, pages = 0, progress = 0) {
     this.name = name;
     this.writer = writer;
     this.isbn = isbn;
     this.genre = genre;
     this.publicationDate = publicationDate;
     this.rating = rating;
+    this.pages = pages;
+    this.progress = progress;
   }
 }
 
 class App {
   constructor() {
     this.books = [];
-    this.viewTableElement = document.querySelector('#view-table-body');
-    this.form = document.querySelector('#book-form');
-    this.nameInput = document.querySelector('#name');
-    this.writerInput = document.querySelector('#writer');
-    this.isbnInput = document.querySelector('#isbn');
-    this.genreInput = document.querySelector('#genre');
-    this.publicationDateInput = document.querySelector('#publication-date');
-    this.ratingInput = document.querySelector('#rating');
-    this.submitButton = document.querySelector('#submit');
-    this.addBookBtn = document.querySelector('#add-book-btn');
-    this.exportBtn = document.querySelector('#export-btn');
-    this.searchInput = document.querySelector('#search-input');
+    this.quotes = [];
+    this.readingChallenge = { goal: 0, booksRead: 0 };
+
+    // DOM element selections
+    this.viewTableElement = document.querySelector('#books-section table tbody');
+    this.bookForm = document.querySelector('#book-modal form');
+    this.nameInput = document.querySelector('#book-modal input[placeholder="Book Title"]');
+    this.writerInput = document.querySelector('#book-modal input[placeholder="Author"]');
+    this.isbnInput = document.querySelector('#book-modal input[placeholder="ISBN"]');
+    this.genreInput = document.querySelector('#book-modal select');
+    this.publicationDateInput = document.querySelector('#book-modal input[type="date"]');
+    this.ratingInput = document.querySelector('#book-modal input[type="number"]');
+    this.pagesInput = document.querySelector('#book-modal input[placeholder="Total Pages"]');
+    this.submitButton = document.querySelector('#book-modal button[type="submit"]');
+    this.addBookBtn = document.querySelector('.user-actions button:first-child');
+    this.exportBtn = document.querySelector('.user-actions button:last-child');
+    this.searchInput = document.querySelector('.search-wrapper input');
     this.messageSection = document.querySelector('#message-section');
     this.bookCountElement = document.querySelector('#book-count');
-    this.sortBtn = document.querySelector('#sort-btn');
-    this.filterBtn = document.querySelector('#filter-btn');
+    this.sortBtn = document.querySelector('.table-actions button:first-child');
+    this.filterBtn = document.querySelector('.table-actions button:last-child');
+    this.updateProgressBtn = document.querySelector('#progress-section button');
+    this.progressForm = document.querySelector('#progress-modal form');
+    this.addQuoteBtn = document.querySelector('#quotes-section button');
+    this.quoteForm = document.querySelector('#quote-modal form');
+    this.setChallengeBtn = document.querySelector('#challenge-section button');
+    this.challengeForm = document.querySelector('#challenge-modal form');
 
-    this.bindEvents();
-  }
-
-  bindEvents() {
-    this.form.addEventListener('submit', (e) => this.handleFormSubmit(e));
-    this.addBookBtn.addEventListener('click', () => this.toggleForm());
-    this.exportBtn.addEventListener('click', () => this.exportToCSV());
-    this.viewTableElement.addEventListener('click', (e) => this.handleTableClick(e));
-    this.searchInput.addEventListener('input', (e) => this.handleSearch(e));
-  }
-
-  handleFormSubmit(e) {
-    e.preventDefault();
-    const book = new Book(
-      this.nameInput.value,
-      this.writerInput.value,
-      this.isbnInput.value,
-      this.genreInput.value,
-      this.publicationDateInput.value,
-      parseInt(this.ratingInput.value)
-    );
-    const isUpdate = this.submitButton.textContent === 'Update Book';
-
-    if (this.validateForm(book)) {
-      isUpdate ? this.updateBook(book) : this.addBook(book);
-      this.resetForm();
-      this.toggleForm();
-    }
-  }
-
-  validateForm(book) {
-    // This method will be overridden in scripts.js
-    return true;
+    // Modals
+    this.bookModal = document.querySelector('#book-modal');
+    this.progressModal = document.querySelector('#progress-modal');
+    this.quoteModal = document.querySelector('#quote-modal');
+    this.challengeModal = document.querySelector('#challenge-modal');
   }
 
   addBook(book) {
@@ -70,62 +55,64 @@ class App {
     } else {
       this.books.push(book);
       this.renderBooks();
+      this.updateReadingStats();
       this.showMessage(`${book.name} added successfully`, 'success');
     }
   }
 
-  updateBook(book) {
-    const index = this.books.findIndex(b => b.isbn === book.isbn);
+  updateBook(updatedBook) {
+    const index = this.books.findIndex(book => book.isbn === updatedBook.isbn);
     if (index !== -1) {
-      this.books[index] = book;
+      this.books[index] = updatedBook;
       this.renderBooks();
-      this.showMessage(`${book.name} updated successfully`, 'success');
+      this.updateReadingStats();
+      this.showMessage(`${updatedBook.name} updated successfully`, 'success');
     } else {
       this.showMessage('Book not found', 'error');
     }
   }
 
   deleteBook(isbn) {
-    const index = this.books.findIndex(b => b.isbn === isbn);
+    const index = this.books.findIndex(book => book.isbn === isbn);
     if (index !== -1) {
       const deletedBook = this.books.splice(index, 1)[0];
       this.renderBooks();
+      this.updateReadingStats();
       this.showMessage(`${deletedBook.name} deleted successfully`, 'success');
     } else {
       this.showMessage('Book not found', 'error');
     }
   }
 
-  renderBooks() {
+  renderBooks(booksToRender = this.books) {
     this.viewTableElement.innerHTML = '';
-    this.books.forEach(book => {
+    booksToRender.forEach(book => {
       const row = this.createBookRow(book);
       this.viewTableElement.appendChild(row);
     });
-    this.updateBookCount();
+    this.updateBookCount(booksToRender.length);
   }
 
   createBookRow(book) {
-    // This method will be overridden in scripts.js
-    return document.createElement('tr');
-  }
-
-  handleTableClick(e) {
-    const target = e.target.closest('button');
-    if (!target) return;
-
-    const isbn = target.getAttribute('data-isbn');
-    if (target.classList.contains('btn-edit')) {
-      this.editBook(isbn);
-    } else if (target.classList.contains('btn-delete')) {
-      if (confirm('Are you sure you want to delete this book?')) {
-        this.deleteBook(isbn);
-      }
-    }
+    const tr = document.createElement('tr');
+    tr.innerHTML = `
+      <td>${book.name}</td>
+      <td>${book.writer}</td>
+      <td>${book.isbn}</td>
+      <td>${book.genre}</td>
+      <td>${new Date(book.publicationDate).toLocaleDateString()}</td>
+      <td>${'★'.repeat(book.rating)}${'☆'.repeat(5 - book.rating)}</td>
+      <td>${book.progress}%</td>
+      <td>
+        <button class="btn btn-sm btn-edit" data-isbn="${book.isbn}">Edit</button>
+        <button class="btn btn-sm btn-delete" data-isbn="${book.isbn}">Delete</button>
+      </td>
+    `;
+    return tr;
   }
 
   editBook(isbn) {
-    const book = this.books.find(b => b.isbn === isbn);
+    const book = this.books.find(book => book.isbn === isbn);
     if (book) {
       this.nameInput.value = book.name;
       this.writerInput.value = book.writer;
@@ -133,27 +120,17 @@ class App {
       this.genreInput.value = book.genre;
       this.publicationDateInput.value = book.publicationDate;
       this.ratingInput.value = book.rating;
+      this.pagesInput.value = book.pages;
       this.isbnInput.readOnly = true;
       this.submitButton.textContent = 'Update Book';
-      this.toggleForm(true);
+      this.openModal(this.bookModal);
     }
   }
 
   resetForm() {
-    this.form.reset();
+    this.bookForm.reset();
     this.isbnInput.readOnly = false;
     this.submitButton.textContent = 'Add Book';
-  }
-
-  toggleForm(show = null) {
-    if (show === null) {
-      this.form.style.display = this.form.style.display === 'none' ? 'block' : 'none';
-    } else {
-      this.form.style.display = show ? 'block' : 'none';
-    }
-    this.addBookBtn.innerHTML = this.form.style.display === 'none' 
-      ? '<i class="fas fa-plus"></i> Add Book' 
-      : '<i class="fas fa-times"></i> Cancel';
   }
 
   showMessage(text, type) {
@@ -163,30 +140,32 @@ class App {
     }, 3000);
   }
 
-  handleSearch(e) {
-    // This method will be overridden in scripts.js
+  updateBookCount(count = this.books.length) {
+    this.bookCountElement.textContent = `${count} book${count !== 1 ? 's' : ''}`;
   }
 
-  renderFilteredBooks(filteredBooks) {
-    this.viewTableElement.innerHTML = '';
-    filteredBooks.forEach(book => {
-      const row = this.createBookRow(book);
-      this.viewTableElement.appendChild(row);
+  sortBooks(option) {
+    this.books.sort((a, b) => {
+      if (a[option] < b[option]) return -1;
+      if (a[option] > b[option]) return 1;
+      return 0;
     });
-    this.updateBookCount(filteredBooks.length);
+    this.renderBooks();
   }
 
-  updateBookCount(count = null) {
-    const bookCount = count !== null ? count : this.books.length;
-    this.bookCountElement.textContent = `${bookCount} book${bookCount !== 1 ? 's' : ''}`;
+  filterBooks(option, value) {
+    const filteredBooks = this.books.filter(book =>
+      value === '' || book[option].toString() === value
+    );
+    this.renderBooks(filteredBooks);
   }
 
   exportToCSV() {
-    const headers = ['Title', 'Author', 'ISBN', 'Genre', 'Publication Date', 'Rating'];
+    const headers = ['Title', 'Author', 'ISBN', 'Genre', 'Publication Date', 'Rating', 'Pages', 'Progress'];
     const csvContent = [
       headers.join(','),
       ...this.books.map(book => 
-        `${book.name},${book.writer},${book.isbn},${book.genre},${book.publicationDate},${book.rating}`
+        `${book.name},${book.writer},${book.isbn},${book.genre},${book.publicationDate},${book.rating},${book.pages},${book.progress}`
       )
     ].join('\n');
 
@@ -200,4 +179,174 @@ class App {
       link.click();
     }
   }
-}
+
+  validateForm(book) {
+    if (!book.name || !book.writer || !book.isbn || !book.genre || !book.publicationDate || !book.rating || !book.pages) {
+      this.showMessage('Please fill in all fields', 'error');
+      return false;
+    }
+    if (book.rating < 1 || book.rating > 5) {
+      this.showMessage('Rating must be between 1 and 5', 'error');
+      return false;
+    }
+    if (!/^\d{13}$/.test(book.isbn)) {
+      this.showMessage('ISBN must be a 13-digit number', 'error');
+      return false;
+    }
+    return true;
+  }
+
+  updateReadingProgress(bookId, progress) {
+    const book = this.books.find(b => b.isbn === bookId);
+    if (book) {
+      book.progress = progress;
+      this.renderBooks();
+      this.updateReadingStats();
+      this.showMessage(`Progress updated for ${book.name}`, 'success');
+    }
+  }
+
+  generateRecommendations() {
+    const genres = [...new Set(this.books.map(book => book.genre))];
+    return genres.map(genre => ({
+      title: `Best ${genre} Book`,
+      author: 'Recommended Author',
+      genre: genre
+    }));
+  }
+
+  updateReadingStats() {
+    const booksRead = this.books.filter(book => book.progress === 100).length;
+    const pagesRead = this.books.reduce((total, book) => total + (book.pages * book.progress / 100), 0);
+    const averageRating = this.books.reduce((total, book) => total + book.rating, 0) / this.books.length || 0;
+
+    document.getElementById('books-read-count').textContent = booksRead;
+    document.getElementById('pages-read-count').textContent = Math.round(pagesRead);
+    document.getElementById('average-rating').textContent = averageRating.toFixed(1);
+    document.getElementById('reading-streak').textContent = `${Math.floor(Math.random() * 30)} days`; // Placeholder for demonstration
+
+    // Update home page quick stats
+    document.getElementById('total-books').textContent = this.books.length;
+    document.getElementById('books-read').textContent = booksRead;
+    this.updateChallengeDisplay();
+  }
+
+  addBookQuote(bookId, quote, page) {
+    const book = this.books.find(b => b.isbn === bookId);
+    if (book) {
+      this.quotes.push({ book: book.name, quote, page });
+      this.renderQuotes();
+      this.showMessage('Quote added successfully', 'success');
+    }
+  }
+
+  renderQuotes() {
+    const quotesList = document.getElementById('quotes-list');
+    quotesList.innerHTML = this.quotes.map(q => `
+      <div class="quote-card">
+        <p>"${q.quote}"</p>
+        <p>- ${q.book}, page ${q.page}</p>
+      </div>
+    `).join('');
+  }
+
+  setReadingChallenge(goal) {
+    this.readingChallenge.goal = goal;
+    this.readingChallenge.booksRead = this.books.filter(book => book.progress === 100).length;
+    this.updateChallengeDisplay();
+    this.showMessage(`New reading challenge set: ${goal} books`, 'success');
+  }
+
+  updateChallengeDisplay() {
+    const { goal, booksRead } = this.readingChallenge;
+    document.getElementById('challenge-goal').textContent = goal;
+    document.getElementById('challenge-books-read').textContent = booksRead;
+    document.getElementById('challenge-total-books').textContent = goal;
+    const progressBar = document.getElementById('challenge-progress-bar');
+    if (progressBar) {
+      const progressPercentage = goal > 0 ? (booksRead / goal) * 100 : 0;
+      progressBar.value = progressPercentage;
+    }
+    document.getElementById('challenge-progress').textContent = goal > 0 ? `${Math.round((booksRead / goal) * 100)}%` : '0%';
+  }
+
+  showSection(sectionId) {
+    document.querySelectorAll('.dashboard-content').forEach(section => {
+      section.style.display = 'none';
+    });
+    document.getElementById(`${sectionId}-section`).style.display = 'block';
+
+    // Update content for specific sections
+    if (sectionId === 'recommendations') {
+      this.renderRecommendations();
+    } else if (sectionId === 'stats') {
+      this.updateReadingStats();
+    } else if (sectionId === 'quotes') {
+      this.renderQuotes();
+    } else if (sectionId === 'challenge') {
+      this.updateChallengeDisplay();
+    }
+  }
+
+  renderRecommendations() {
+    const recommendations = this.generateRecommendations();
+    const recommendationsList = document.getElementById('recommendations-list');
+    recommendationsList.innerHTML = recommendations.map(book => `
+      <div class="recommendation-card">
+        <h3>${book.title}</h3>
+        <p>by ${book.author}</p>
+        <p>Genre: ${book.genre}</p>
+      </div>
+    `).join('');
+  }
+
+  openModal(modal) {
+    modal.style.display = 'block';
+  }
+
+  closeModal(modal) {
+    modal.style.display = 'none';
+  }
+
+    openProgressModal() {
+      let formHtml = '<select id="progress-book-select">';
+      this.books.forEach(book => {
+        formHtml += `<option value="${book.isbn}">${book.name}</option>`;
+      });
+      formHtml += '</select>';
+      formHtml += '<input type="number" id="progress-pages" min="0" max="100" step="1">';
+      formHtml += '<button type="submit" class="btn btn-primary">Update Progress</button>';
+
+      this.progressForm.innerHTML = formHtml;
+      this.openModal(this.progressModal);
+    }
+
+    openQuoteModal() {
+      this.quoteForm.innerHTML = `
+        <div class="form-group">
+          <label for="quote-book-select">Select Book</label>
+          <select id="quote-book-select" class="form-control">
+            ${this.books.map(book => `<option value="${book.isbn}">${book.name}</option>`).join('')}
+          </select>
+        </div>
+        <div class="form-group">
+          <label for="quote-text">Quote</label>
+          <textarea id="quote-text" class="form-control" placeholder="Enter the quote" rows="3"></textarea>
+        </div>
+        <div class="form-group">
+          <label for="quote-page">Page Number</label>
+          <input type="number" id="quote-page" class="form-control" placeholder="Page number">
+        </div>
+        <button type="submit" class="btn btn-primary btn-block">Add Quote</button>
+      `;
+      this.openModal(this.quoteModal);
+    }
+
+    openChallengeModal() {
+      this.challengeForm.innerHTML = `
+        <input type="number" id="challenge-goal" min="1" placeholder="Number of books">
+        <button type="submit" class="btn btn-primary">Set Challenge</button>
+      `;
+      this.openModal(this.challengeModal);
+    }
+  }

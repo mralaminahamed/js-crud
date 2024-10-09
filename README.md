@@ -10,10 +10,15 @@ Experience BookTracker Pro in action: [https://simple-js-crud.netlify.app/](http
 
 ## ✨ Features
 
-- **📚 Comprehensive Book Management**: Add, edit, and delete books with ease.
+- **📚 Comprehensive Book Management**: Add, edit, and delete books with ease. Include detailed information such as title, author, ISBN, genre, publication date, rating, and total pages.
+- **📖 Reading Progress Tracking**: Update and view your reading progress for each book, including pages read and completion percentage.
 - **🔍 Advanced Search**: Quickly find books using a powerful search feature that checks across all fields.
 - **🔢 Sorting Capabilities**: Organize your library by sorting books based on various criteria (title, author, ISBN, etc.).
 - **🏷️ Smart Filtering**: Filter your book collection by genre, rating, or publication date.
+- **📊 Reading Statistics**: View total books in collection, track books read, calculate average rating, and monitor your reading streak.
+- **🏆 Reading Challenge**: Set personal reading goals, track progress, and visualize your achievement.
+- **💬 Book Quotes**: Add and view memorable quotes from your books, associated with specific books and page numbers.
+- **📚 Book Recommendations**: Receive personalized book recommendations based on your reading history and preferences.
 - **📊 Data Export**: Export your entire book collection to CSV for backup or analysis.
 - **📱 Responsive Design**: Enjoy a seamless experience across desktop, tablet, and mobile devices.
 - **⌨️ Keyboard Shortcuts**: Boost your productivity with intuitive keyboard shortcuts.
@@ -85,8 +90,23 @@ Experience BookTracker Pro in action: [https://simple-js-crud.netlify.app/](http
    - Click the "Filter" button to show filtering options.
    - Select criteria to filter your book list.
 
-7. **Exporting Data**:
-   - Click the "Export CSV" button to download your book collection as a CSV file.
+7. **Updating Reading Progress**:
+   - Click the "Update Progress" button on a book's entry.
+   - Enter the new progress (pages read or percentage).
+
+8. **Adding Book Quotes**:
+   - Navigate to the "Book Quotes" section.
+   - Click "Add Quote" and fill in the quote details.
+
+9. **Setting a Reading Challenge**:
+   - Go to the "Reading Challenge" section.
+   - Set your goal for the number of books to read.
+
+10. **Viewing Statistics and Recommendations**:
+    - Check the "Reading Stats" and "Recommendations" sections for insights and suggestions.
+
+11. **Exporting Data**:
+    - Click the "Export CSV" button to download your book collection as a CSV file.
 
 ### ⌨️ Keyboard Shortcuts
 

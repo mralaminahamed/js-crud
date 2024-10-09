@@ -9,90 +9,210 @@
 </head>
 <body>
     <div class="app-container">
-        <header class="app-header">
-            <h1 class="app-title"><i class="fas fa-book-open"></i> BookTracker Pro</h1>
-            <div class="header-controls">
+        <aside class="sidebar">
+            <div class="logo">
+                <h1>BookTracker Pro</h1>
+            </div>
+            <nav>
+                <ul>
+                    <li><a href="#" class="active" data-section="home"><i class="fas fa-home"></i> Home</a></li>
+                    <li><a href="#" data-section="books"><i class="fas fa-book"></i> My Books</a></li>
+                    <li><a href="#" data-section="progress"><i class="fas fa-tasks"></i> Reading Progress</a></li>
+                    <li><a href="#" data-section="recommendations"><i class="fas fa-star"></i> Recommendations</a></li>
+                    <li><a href="#" data-section="stats"><i class="fas fa-chart-bar"></i> Reading Stats</a></li>
+                    <li><a href="#" data-section="quotes"><i class="fas fa-quote-right"></i> Book Quotes</a></li>
+                    <li><a href="#" data-section="challenge"><i class="fas fa-trophy"></i> Reading Challenge</a></li>
+                </ul>
+            </nav>
+        </aside>
+
+        <main class="main-content">
+            <header class="top-bar">
                 <div class="search-wrapper">
                     <input type="text" id="search-input" class="search-input" placeholder="Search books...">
                     <i class="fas fa-search search-icon"></i>
                 </div>
-                <button id="add-book-btn" class="btn btn-primary"><i class="fas fa-plus"></i> Add Book</button>
-                <button id="export-btn" class="btn btn-secondary"><i class="fas fa-file-export"></i> Export</button>
-            </div>
-        </header>
-        
-        <main class="app-main">
+                <div class="user-actions">
+                    <button id="add-book-btn" class="btn btn-primary"><i class="fas fa-plus"></i> Add Book</button>
+                    <button id="export-btn" class="btn btn-secondary"><i class="fas fa-file-export"></i> Export</button>
+                </div>
+            </header>
+
+            <section id="home-section" class="dashboard-content">
+                <div class="welcome-card">
+                    <h2>Welcome to BookTracker Pro</h2>
+                    <p>Manage your book collection, track your reading progress, and discover new books.</p>
+                </div>
+                <div class="quick-stats">
+                    <div class="stat-card">
+                        <h3>Books in Collection</h3>
+                        <p id="total-books">0</p>
+                    </div>
+                    <div class="stat-card">
+                        <h3>Books Read</h3>
+                        <p id="books-read">0</p>
+                    </div>
+                    <div class="stat-card">
+                        <h3>Reading Challenge Progress</h3>
+                        <p id="challenge-progress">0%</p>
+                    </div>
+                </div>
+            </section>
+
+            <section id="books-section" class="dashboard-content" style="display:none;">
+                <h2>My Books</h2>
+                <div class="table-controls">
+                    <div id="book-count" class="table-info">0 books</div>
+                    <div class="table-actions">
+                        <button id="sort-btn" class="btn btn-text"><i class="fas fa-sort"></i> Sort</button>
+                        <button id="filter-btn" class="btn btn-text"><i class="fas fa-filter"></i> Filter</button>
+                    </div>
+                </div>
+                <table class="books-table">
+                    <thead>
+                        <tr>
+                            <th>Title</th>
+                            <th>Author</th>
+                            <th>ISBN</th>
+                            <th>Genre</th>
+                            <th>Publication Date</th>
+                            <th>Rating</th>
+                            <th>Progress</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody id="view-table-body"></tbody>
+                </table>
+            </section>
+
+            <section id="progress-section" class="dashboard-content" style="display:none;">
+                <h2>Reading Progress</h2>
+                <div id="progress-list"></div>
+                <button id="update-progress-btn" class="btn btn-primary">Update Progress</button>
+            </section>
+
+            <section id="recommendations-section" class="dashboard-content" style="display:none;">
+                <h2>Book Recommendations</h2>
+                <div id="recommendations-list"></div>
+            </section>
+
+            <section id="stats-section" class="dashboard-content" style="display:none;">
+                <h2>Reading Stats</h2>
+                <div class="stats-grid">
+                    <div class="stat-card">
+                        <h3>Books Read</h3>
+                        <p id="books-read-count">0</p>
+                    </div>
+                    <div class="stat-card">
+                        <h3>Pages Read</h3>
+                        <p id="pages-read-count">0</p>
+                    </div>
+                    <div class="stat-card">
+                        <h3>Average Rating</h3>
+                        <p id="average-rating">0</p>
+                    </div>
+                    <div class="stat-card">
+                        <h3>Reading Streak</h3>
+                        <p id="reading-streak">0 days</p>
+                    </div>
+                </div>
+                <div id="reading-chart"></div>
+            </section>
+
+            <section id="quotes-section" class="dashboard-content" style="display:none;">
+                <h2>Book Quotes</h2>
+                <div id="quotes-list"></div>
+                <button id="add-quote-btn" class="btn btn-primary">Add Quote</button>
+            </section>
+
+            <section id="challenge-section" class="dashboard-content" style="display:none;">
+                <h2>Reading Challenge</h2>
+                <div class="challenge-progress">
+                    <h3>Current Challenge: <span id="challenge-goal">0</span> books</h3>
+                    <progress id="challenge-progress-bar" value="0" max="100"></progress>
+                    <p><span id="challenge-books-read">0</span> / <span id="challenge-total-books">0</span> books read</p>
+                </div>
+                <button id="set-challenge-btn" class="btn btn-primary">Set New Challenge</button>
+            </section>
+
             <div id="message-section" class="message-section"></div>
 
-            <form id="book-form" class="book-form">
-                <div class="form-row">
-                    <div class="form-group">
-                        <label for="name">Book Title</label>
-                        <input type="text" id="name" placeholder="Enter book title" required>
-                    </div>
-                    <div class="form-group">
-                        <label for="writer">Author</label>
-                        <input type="text" id="writer" placeholder="Enter author name" required>
-                    </div>
-                    <div class="form-group">
-                        <label for="isbn">ISBN</label>
-                        <input type="text" id="isbn" placeholder="Enter ISBN" required>
-                    </div>
-                </div>
-                <div class="form-row">
-                    <div class="form-group">
-                        <label for="genre">Genre</label>
-                        <select id="genre" required>
-                            <option value="">Select genre</option>
-                            <option value="Fiction">Fiction</option>
-                            <option value="Non-Fiction">Non-Fiction</option>
-                            <option value="Science Fiction">Science Fiction</option>
-                            <option value="Mystery">Mystery</option>
-                            <option value="Biography">Biography</option>
-                        </select>
-                    </div>
-                    <div class="form-group">
-                        <label for="publication-date">Publication Date</label>
-                        <input type="date" id="publication-date" required>
-                    </div>
-                    <div class="form-group">
-                        <label for="rating">Rating</label>
-                        <input type="number" id="rating" min="1" max="5" placeholder="1-5" required>
-                    </div>
-                </div>
-                <div class="form-actions">
-                    <button type="submit" id="submit" class="btn btn-primary">Add Book</button>
-                    <button type="reset" class="btn btn-secondary">Reset</button>
-                </div>
-            </form>
-
-            <div class="table-controls">
-                <div class="table-info">
-                    <span id="book-count">0 books</span>
-                </div>
-                <div class="table-actions">
-                    <button id="sort-btn" class="btn btn-text"><i class="fas fa-sort"></i> Sort</button>
-                    <button id="filter-btn" class="btn btn-text"><i class="fas fa-filter"></i> Filter</button>
+            <!-- Modals -->
+            <div id="book-modal" class="modal">
+                <div class="modal-content">
+                    <span class="close">&times;</span>
+                    <h2>Add/Edit Book</h2>
+                    <form id="book-form">
+                        <div class="form-group">
+                            <label for="name">Book Title</label>
+                            <input type="text" id="name" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="writer">Author</label>
+                            <input type="text" id="writer" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="isbn">ISBN</label>
+                            <input type="text" id="isbn" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="genre">Genre</label>
+                            <select id="genre" required>
+                                <option value="">Select genre</option>
+                                <option value="Fiction">Fiction</option>
+                                <option value="Non-Fiction">Non-Fiction</option>
+                                <option value="Science Fiction">Science Fiction</option>
+                                <option value="Mystery">Mystery</option>
+                                <option value="Biography">Biography</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="publication-date">Publication Date</label>
+                            <input type="date" id="publication-date" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="rating">Rating</label>
+                            <input type="number" id="rating" min="1" max="5" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="pages">Total Pages</label>
+                            <input type="number" id="pages" min="1" required>
+                        </div>
+                        <div class="form-actions">
+                            <button type="submit" id="submit" class="btn btn-primary">Add Book</button>
+                            <button type="button" id="cancel-btn" class="btn btn-text">Cancel</button>
+                        </div>
+                    </form>
                 </div>
             </div>
 
-            <table id="books-table" class="books-table">
-                <thead>
-                    <tr>
-                        <th>Title</th>
-                        <th>Author</th>
-                        <th>ISBN</th>
-                        <th>Genre</th>
-                        <th>Publication Date</th>
-                        <th>Rating</th>
-                        <th>Actions</th>
-                    </tr>
-                </thead>
-                <tbody id="view-table-body"></tbody>
-            </table>
+            <div id="progress-modal" class="modal">
+                <div class="modal-content">
+                    <span class="close">&times;</span>
+                    <h2>Update Reading Progress</h2>
+                    <form id="progress-form"></form>
+                </div>
+            </div>
+
+            <div id="quote-modal" class="modal">
+                <div class="modal-content">
+                    <span class="close">&times;</span>
+                    <h2>Add Book Quote</h2>
+                    <form id="quote-form"></form>
+                </div>
+            </div>
+
+            <div id="challenge-modal" class="modal">
+                <div class="modal-content">
+                    <span class="close">&times;</span>
+                    <h2>Set Reading Challenge</h2>
+                    <form id="challenge-form"></form>
+                </div>
+            </div>
         </main>
     </div>
 
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <script src="assets/js/app.js"></script>
     <script src="assets/js/scripts.js"></script>
 </body>
